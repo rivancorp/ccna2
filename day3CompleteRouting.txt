@@ -12,6 +12,7 @@ int e1/0
  no shut
  ip add 192.168.1.133 255.255.255.224
  do bp
+!These are floating Default Static routes with redundancy
  ip route 0.0.0.0 0.0.0.0 192.168.1.129 1
  ip route 0.0.0.0 0.0.0.0 192.168.1.130 2
  do sh ip route static
@@ -83,10 +84,10 @@ config t
 int e0/0
  ip add 10.2.1.101 255.255.255.0
  no shut
-P1: Creating STATIC routes on p1 for vlan 200 and vlan 20:
+P1: Creating Floating STATIC routes on p1 for vlan 200 and vlan 20:
 config t
 ip route  192.168.1.128 255.255.255.224 10.2.1.1 1
-ip route  192.168.1.130 255.255.255.255 10.2.1.2
+ip route  192.168.1.130 255.255.255.255 10.2.1.2 2
 do sh ip route static
 p2:
 config t
