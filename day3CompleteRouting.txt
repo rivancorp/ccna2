@@ -95,7 +95,7 @@ int e1/0
  ip add 10.2.1.102 255.255.255.0
  no shut
 P2: create static route for vlan 200 and a 
-longest prefix rule for 192.168.1.129 GATEWAY of 10.2.1.1
+longest prefix rule[for Vip IP address] for 192.168.1.129 GATEWAY of 10.2.1.1
 config t
 ip route  192.168.1.128 255.255.255.224 10.2.1.2
 ip route  192.168.1.129 255.255.255.255 10.2.1.1
@@ -167,6 +167,12 @@ router eigrp 100
  network 10.1.4.8 0.0.0.3
  network 10.1.4.4 0.0.0.3
  end
+!HOW TO CHECK IF EIGRP IS WORKING PROPERLY:
+show ip protocols
+show ip EIGRP neighbors --> super, meron kapitbahay
+show ip eigrp topology --> super, madami ang P, P lahat
+show ip eigrp traffic
+show ip route eigrp
 
 !!Multi Area OSPF FOR nETWOR eNGINEERS:
 OSPF NETWORK:
@@ -212,6 +218,18 @@ OSPF checking:
 sh ip protocols
 sh ip ospf neighbor
 sh ip ospf database
+
+@declaring Link between r3 and r4 as Point to Point:
+R3:
+config t
+interface e1/2
+   ip ospf network point-to-point
+   do sh ip ospf int e1/2
+R4:
+config t
+interface e1/2
+   ip ospf network point-to-point
+    do sh ip ospf int e1/2
 
 Task3: Eigrp and Ospf Redistribution:
 R4: sikat: Eigrp and OSPF world:
