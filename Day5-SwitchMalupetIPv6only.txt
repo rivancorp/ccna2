@@ -252,11 +252,11 @@ indicator no.2: if you plug a device=30s
 indicator no.3: Kislap every 1/2 seconds
 
 TASK6: HOW TO GET FIRED IMMEDIATELY!
-@baba:
+SIRAIN NG TODO SI @taas at @baba:
 config t
 NO spanning-tree vlan 1-999
 end
-@taas:
+AYUSIN ULET IS @taas: AT @baba
 config t
 spanning-tree vlan 1-999
 end
