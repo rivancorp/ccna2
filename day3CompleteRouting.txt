@@ -64,7 +64,7 @@ config t
 int e0/0
  switchport mode access
  switchport access vlan 10
-A1: creating Default route and Secondary Default Route:
+A1: creating Floating Default route and Secondary Default Route:
 config t
 ip route 0.0.0.0 0.0.0.0 192.168.1.129 1
 ip route 0.0.0.0 0.0.0.0 192.168.1.130 2
