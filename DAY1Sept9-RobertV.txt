@@ -137,7 +137,7 @@ Int Fa 0/7
   switchport mode access
   switchport voice vlan 100 
   mls qos trust device cisco-phone 
- switchoprt access vlan 1
+ switchport access vlan 1
  end
 
 !IP CAMERAS NEED MAC ADDRESS RESERVATION FOR FIXED IP  (LINE 144 to 151 PASTE TO COREBABA)
@@ -195,28 +195,28 @@ telephony-service
    no auto-reg-ephone
    max-ephones 5
    max-dn 20
-   ip source-address 10.12.100.8 port 2000
+   ip source-address 10.__.100.8 port 2000
    create cnf-files
 ephone-dn 1
-  number 1211
+  number __11
 ephone-dn 2
-  number 1222
+  number __22
 ephone-dn 3
-  number 1233
+  number __33
 ephone-dn 4
-  number 1244
+  number __44
 ephone-dn 5
-  number 1255
+  number __55
 ephone-dn 6
-  number 1266
+  number __66
 ephone-dn 7
-  number 1277
+  number __77
 ephone-dn 8
-  number 1288
+  number __88
  ephone-dn 9
-   number 1290
+   number__90
 ephone-dn 10
- number 1291
+ number __91
 Ephone 1
   Mac-address ____.____.____
   type 8945
@@ -432,7 +432,13 @@ application
   param aa-hunt4 _33
   param queue-manager-debugs 1
   param number-of-hunt-grps 4
-****************************************************************************
+*********************************************************************
+HOW TO FIX THE SHYT
+config t
+ application
+  no service callqueue flash:app-b-acd-2.1.2.2.tcl  
+  no service rivanaa flash:app-b-acd-aa-2.1.2.2.tcl
+*******
 INSTALL DNS - DOMAIN NAME SERVER
 
 OPEN CMD
