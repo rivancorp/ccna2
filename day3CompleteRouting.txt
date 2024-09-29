@@ -77,7 +77,7 @@ int e1/0
 A2: creating primary and backup default route:
 config t
 ip route 0.0.0.0 0.0.0.0 192.168.1.130 1
-ip route 0.0.0.0 0.0.0.0 192.168.1.129 2
+ip route 0.0.0.0 0.0.0.0 192.168.1.129  2
 do sh ip route static
 p1:
 config t
@@ -87,7 +87,8 @@ int e0/0
 P1: Creating Floating STATIC routes on p1 for vlan 200 and vlan 20:
 config t
 ip route  192.168.1.128 255.255.255.224 10.2.1.1 1
-ip route  192.168.1.130 255.255.255.255 10.2.1.2 2
+ip route  192.168.1.130 255.255.255.255 10.2.1.2
+! /32 is better than /27: longest prefix Rule.
 do sh ip route static
 p2:
 config t
@@ -107,12 +108,15 @@ route  add 10.m.0.0 mask 255.255.0.0 10.m.1.4 -p
 How to Create Default Route Cisco/PC/EndDevices:
 p1:
 config T
-ip route 0.0.0.0  0.0.0.0 10.2.1.1
+ip route 0.0.0.0  0.0.0.0 10.2.1.1 1
+ip route 0.0.0.0  0.0.0.0 10.2.1.2 2
+!floating Static Routes
 do sh ip route static
 
 p2:
 config T
-ip route 0.0.0.0  0.0.0.0 10.2.1.2
+ip route 0.0.0.0  0.0.0.0 10.2.1.2 1
+ip route 0.0.0.0  0.0.0.0 10.2.1.1 2
 do sh ip route static
 
 D1:
@@ -168,9 +172,9 @@ router eigrp 100
  network 10.1.4.4 0.0.0.3
  end
 !HOW TO CHECK IF EIGRP IS WORKING PROPERLY:
-show ip protocols
-show ip EIGRP neighbors --> super, meron kapitbahay
-show ip eigrp topology --> super, madami ang P, P lahat
+SIR: show ip protocols
+SIEN: show ip EIGRP neighbors --> super, meron kapitbahay
+SIET: show ip eigrp topology --> super, madami ang P, P lahat
 show ip eigrp traffic
 show ip route eigrp
 
@@ -184,7 +188,9 @@ router ospf 1
 router-id 4.4.4.4
 network 4.4.4.4 0.0.0.0 area 34
 network 10.1.1.8 0.0.0.3 area 34
-
+interface e1/2
+   ip ospf network point-to-point
+   !eto lab sa exam sa 2024/2025
 R3:
 config t
 Int loopback 0
@@ -194,6 +200,8 @@ router-id 3.3.3.3
 network 3.3.3.3 0.0.0.0 area 0
 network 10.1.1.4 0.0.0.3 area 0
 network 10.1.1.8 0.0.0.3 area 34
+interface e1/2
+   ip ospf network point-to-point
 
 R2:
 config t
@@ -204,7 +212,9 @@ router-id 2.2.2.2
 network 2.2.2.2 0.0.0.0 area 0
 network 10.1.1.4 0.0.0.3 area 0
 network 10.1.1.0 0.0.0.3 area 12
-
+interface e1/2
+   ip ospf network point-to-point
+  !! eto mismo ang Lab mo:
 R1:
 config t
 Int loopback 0
@@ -213,11 +223,14 @@ router ospf 1
 router-id 1.1.1.1
 network 1.1.1.1 0.0.0.0 area 12
 network 10.1.1.0 0.0.0.3 area 12
+interface e1/0
+   ip ospf network point-to-point
 
 OSPF checking:
-sh ip protocols
-sh ip ospf neighbor
-sh ip ospf database
+SIP: sh ip protocols
+SION: sh ip ospf neighbor
+SIOD: sh ip ospf database
+SIRO: sh ip route ospf
 
 @declaring Link between r3 and r4 as Point to Point:
 R3:
@@ -321,7 +334,8 @@ router bgp 45
  network 45.4.5.0 mask 255.255.255.0
 end
 
-TASK4: WHY OSPF AND BGP ARE BEST FRIENDS:
+TASK4: WHY OSPF AND BGP ARE BEST FRIENDS, SOULMATE, LOVERS, FUCKBUDDY, MU, FOREVER, LIFETIME, COMMITED
+                             BFF, :
 OSPF can Inject all BGP routes int ONE ospf route: O*E2
 R1:
 CONFIG t
