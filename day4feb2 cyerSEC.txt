@@ -246,7 +246,19 @@ Interface Gi 3
 EX.2 CREATE A FIREWALL POLICY NAMED PROWEBAPP2 TO OPEN
 WWW.WEB8.COM HAS HTTPS AS OPEN
 WWW.WEB9.COM HAS HTTPS OPEN
-formula:       PROTOCOL    HACKER    VICTIM     PORT:
+formula:       PROTOCOL      HACKER      VICTIM       PORT:
+       tcp, udp, icmp, IP    any       web8,web9
+Ports: 
+7/tcp   open  echo, 
+9/tcp   open  discard
+13/tcp  open  daytime
+19/tcp  open  chargen  -- very delikado:
+22/tcp  open  ssh
+23/tcp  open  telnet
+53/tcp  open  domain
+79/tcp  open  finger
+80/tcp  open  http
+443/tcp open  https
 config t
 no ip access-list extended PROWEBAPP2
 ip access-list extended PROWEBAPP2
@@ -256,27 +268,69 @@ Interface Gi 3
  ip access-group PROWEBAPP2 in
  do sh ip access-list PROWEBAPP1
 
-EX.4 CREATE A FIREWALL POLICY NAMED PROWEBAPP4 TO OPEN
-WWW.WEB8.COM HAS ping, dns, https OPEN
-WWW.WEB9.COM HAS everything OPEN!
+EX.4 CREATE A FIREWALL POLICY NAMED ProtectWEB1 TO OPEN
+WWW.WEB8.COM HAS dns, https open
+WWW.WEB9.COM HAS ssh, http, ping/icmp. open
 config t
-no ip access-list extended PROWEBAPP4
-ip access-list extended PROWEBAPP4
-Permit icmp any host www.web8.com
-Permit tcp any host www.web8.com eq 53
-Permit tcp any host www.web8.com eq 443
-Permit IP any host www.web9.com
+no ip access-list extended ProtectWEB1
+ip access-list extended ProtectWEB1
+Permit tcp any host www.web8.com eq 53 log
+Permit tcp any host www.web8.com eq 443 log
+Permit tcp any host www.web9.com eq 22 log
+Permit tcp any host www.web9.com eq 80 log
+Permit icmp any host www.web9.com log
 Interface Gi 3
- ip access-group PROWEBAPP4 in
- do sh ip access-list PROWEBAPP4
+ ip access-group ProtectWEB1 in
+ do sh ip access-list ProtectWEB1
 
-EX.5 CREATE A FIREWALL POLICY NAMED LASTFWP TO OPEN
-WWW.WEB8.COM HAS ping, chargen, finger, http as Open
-WWW.WEB9.COM HAS ssh, telnet, daytime, dns, https as Open:
+EX.5 CREATE A FIREWALL POLICY NAMED "LASTFWP" TO OPEN
+WWW.WEB8.COM HAS ping, chargen, finger, http as Open = 4 lines
+WWW.WEB9.COM HAS ssh, telnet, daytime, dns, https as Open: = 5 lines
 if you canNOT make the Policy, you work in Jollibee.
 config t
+no ip access-list extended LASTFWP
+ip access-list extended LASTFWP
+Permit icmp any host www.web8.com log
+Permit tcp any host www.web8.com eq __ log
+Permit tcp any host www.web8.com eq __ log
+Permit tcp any host www.web8.com eq __ log
+Permit tcp any host www.web9.com eq __ log
+Permit tcp any host www.web9.com eq __ log
+Permit tcp any host www.web9.com eq __ log
+Permit icmp any host www.web9.com log
 Interface Gi 3
- NO ip access-group LASTFWP in
+ ip access-group LASTFWP in
+ do sh ip access-list LASTFWP
+
+EX.5 CREATE A FIREWALL POLICY NAMED "LASTFWP2" TO OPEN
+WWW.WEB8.COM HAS http, https as Open = 
+WWW.WEB9.COM HAS telnet, ssh, dns as Open: = 
+if you canNOT make the Policy, you work in Jollibee.
+
+config t
+no ip access-list extended LASTFWP2
+ip access-list extended LASTFWP2
+Permit icmp any host www.web8.com log
+Permit tcp any host www.web8.com eq __ log
+Permit tcp any host www.web8.com eq __ log
+Permit tcp any host www.web9.com eq __ log
+Permit tcp any host www.web9.com eq __ log
+Interface Gi 3
+ ip access-group LASTFWP2 in
+ do sh ip access-list LASTFWP2
+
+EX.6 CREATE A FIREWALL POLICY NAMED "LASTFWP3" TO OPEN
+WWW.WEB8.COM HAS https as Open = 
+WWW.WEB9.COM HAS ssh, as Open: = 
+if you canNOT make the Policy, you work in Jollibee.
+config t
+no ip access-list extended LASTFWP3
+ip access-list extended LASTFWP3
+Permit tcp any host www.web8.com eq __ log
+Permit tcp any host www.web9.com eq __ log
+Interface Gi 3
+ ip access-group LASTFWP3 in
+ do sh ip access-list LASTFWP3
 
 TASK8: CONFIGURING CISCO NETWORK SERVICES:
 NETWORK TIME PROTOCOL OR NTP 
@@ -286,6 +340,15 @@ config t
 ntp server 216.239.35.8
 end
 show ntp associations
+GIVE IP ADDRESS TO LINUX BLDGONE AND BLDGTWO:
+sudo su
+bldg1:
+ifconfig eth0 192.168.103.11 netmask 255.255.255.0 up
+route add default gw 192.168.103.8
+bldg2:
+ifconfig eth0 192.168.103.12 netmask 255.255.255.0 up
+route add default gw 192.168.103.8
+ping 8.8.8.8   1.1.1.1  4.2.2.2  8.8.4.4
 
 TASK9: NAT: NETWORK ADDRESS TRANSLATION SERVICE:
 nat, proxy, hotspot, tethering, = PENGE INTERNET
@@ -305,9 +368,21 @@ no access-list 7
 access-list 7 permit 192.168.102.0 0.0.0.255
 access-list 7 permit 192.168.103.0 0.0.0.255
 ip nat inside source list 7 interface Gi 1 overload
-ip nat inside source static 192.168.102.69 192.168.108.69
-ip nat inside source static 192.168.103.88 192.168.108.88
+ip nat inside source static 192.168.103.11 192.168.108.69
+ip nat inside source static 192.168.103.12 192.168.108.88
 end
+FW-VPN-PH#show ip nat translations 
+Pro  Inside global         Inside local          Outside local         Outside global
+---  192.168.108.88        192.168.103.12        ---                   ---
+---  192.168.108.69        192.168.103.11        ---                   ---
+icmp 192.168.108.69:57608  192.168.103.11:57608  1.1.1.1:57608         1.1.1.1:57608
+icmp 192.168.108.69:57864  192.168.103.11:57864  8.8.8.8:57864         8.8.8.8:57864
+icmp 192.168.108.88:56840  192.168.103.12:56840  1.1.1.1:56840         1.1.1.1:56840
+icmp 192.168.108.88:57096  192.168.103.12:57096  8.8.8.8:57096         8.8.8.8:57096
+icmp 192.168.108.88:56584  192.168.103.12:56584  8.8.4.4:56584         8.8.4.4:56584
+Total number of translations: 7
+
+FW-VPN-PH#
 
 TASK10: DO YOU HAVE TO REPLACED BY A.I AT WORK? REPLACED BY
 YOUNGER, SMARTER, CHEAPER NEW HIRES?? HOW TO BE UNTOUCHABLE EMPLOYEE?
