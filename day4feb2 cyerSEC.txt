@@ -79,8 +79,8 @@ ping  www.ue.edu.ph 155.137.92.0
 
 TASK2: USE STANDARD ACCESS-LIST TO BLOCK OTHER CONTRIES/CLASSMATE:
 config t
-NO ip access-list standard NOCOL1
-ip access-list standard NOCOL1
+NO ip access-list standard NOCLASSMATE
+ip access-list standard NOCLASSMATE
 DENY 10.11.0.0 0.0.255.255
 DENY 10.21.0.0 0.0.255.255
 DENY 10.31.0.0 0.0.255.255
@@ -89,7 +89,7 @@ DENY 10.51.0.0 0.0.255.255
 DENY 10.61.0.0 0.0.255.255
 Permit Any
 Int Gi 0/0/1
- ip access-group NOCOL1 in
+ ip access-group NOCLASSMATE in
  end
 
 TASK3: When you become a Security Analyst:
@@ -190,7 +190,7 @@ intentionally hackable websites
 task6: How to Make CUCM intentionally hackable to Learn
 the Basics for Firewalls.
 before: nmap -v 10.m.100.8
-@Cucm:
+@Cucm: = fa 0/0/ or CSR1000v = gi3
 config t
 int Gi 3
  no shut
