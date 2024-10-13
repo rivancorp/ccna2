@@ -136,6 +136,14 @@ Static Routing In IPv4 and IPv6:
 ip route 0.0.0.0  0.0.0.0 10.m.1.4
 ipv6  route  ::/0   face:cafe:face:cafe::aaaa
 
+How to jailBreak forgotten Password:
+1. remove power, press mode after 8 secs:
+2. switch: 
+            flash_init
+	    load_helper
+            delete  flash:config.text
+            boot
+
 !@@@CORE SWITCH SA TAAS
 config t
    hostname COREtaas_
