@@ -87,7 +87,7 @@ int e0/0
 P1: Creating Floating STATIC routes on p1 for vlan 200 and vlan 20:
 config t
 ip route  192.168.1.128 255.255.255.224 10.2.1.1 1
-ip route  192.168.1.130 255.255.255.255 10.2.1.2
+ip route  192.168.1.130 255.255.255.255 10.2.1.2 10
 ! /32 is better than /27: longest prefix Rule.
 do sh ip route static
 p2:
