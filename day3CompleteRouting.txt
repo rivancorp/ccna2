@@ -186,8 +186,8 @@ Int loopback 0
  ip add 4.4.4.4 255.255.255.255
 router ospf 1
 router-id 4.4.4.4
-network 4.4.4.4 0.0.0.0 area 34
-network 10.1.1.8 0.0.0.3 area 34
+network 4.4.4.4 0.0.0.0 area 0
+network 10.1.1.8 0.0.0.3 area 0
 interface e1/2
    ip ospf network point-to-point
    !eto lab sa exam sa 2024/2025
@@ -199,7 +199,7 @@ router ospf 1
 router-id 3.3.3.3
 network 3.3.3.3 0.0.0.0 area 0
 network 10.1.1.4 0.0.0.3 area 0
-network 10.1.1.8 0.0.0.3 area 34
+network 10.1.1.8 0.0.0.3 area 0
 interface e1/2
    ip ospf network point-to-point
 
@@ -211,7 +211,7 @@ router ospf 1
 router-id 2.2.2.2
 network 2.2.2.2 0.0.0.0 area 0
 network 10.1.1.4 0.0.0.3 area 0
-network 10.1.1.0 0.0.0.3 area 12
+network 10.1.1.0 0.0.0.3 area 0
 interface e1/2
    ip ospf network point-to-point
   !! eto mismo ang Lab mo:
@@ -221,8 +221,8 @@ Int loopback 0
  ip add 1.1.1.1 255.255.255.255
 router ospf 1
 router-id 1.1.1.1
-network 1.1.1.1 0.0.0.0 area 12
-network 10.1.1.0 0.0.0.3 area 12
+network 1.1.1.1 0.0.0.0 area 0
+network 10.1.1.0 0.0.0.3 area 0
 interface e1/0
    ip ospf network point-to-point
 
