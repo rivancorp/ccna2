@@ -41,7 +41,7 @@ CONFIG T
 no logging console
 Int Gi 2
 no shut
-ip add 192.168.102.5 255.255.255.0
+ip add 192.168.108.5 255.255.255.0
 @telnet use secureCRT: telnet 192.168.108.5
 in SEcureCRT, Paste This:
 config t
@@ -50,7 +50,7 @@ ip name-server 8.8.8.8
 ip domain-lookup
 int gi 1
 no shut
-ip add 192.168.108.5 255.255.255.0
+ip add 192.168.101.5 255.255.255.0
 int gi 3
 no shut
 ip add 192.168.103.5 255.255.255.0
@@ -79,17 +79,18 @@ ping  www.ue.edu.ph 155.137.92.0
 
 TASK2: USE STANDARD ACCESS-LIST TO BLOCK OTHER CONTRIES/CLASSMATE:
 config t
-NO ip access-list standard NOCLASSMATE
-ip access-list standard NOCLASSMATE
+NO ip access-list standard NOCLASSMATE1
+ip access-list standard NOCLASSMATE1
 DENY 10.11.0.0 0.0.255.255
 DENY 10.21.0.0 0.0.255.255
 DENY 10.31.0.0 0.0.255.255
 DENY 10.41.0.0 0.0.255.255
 DENY 10.51.0.0 0.0.255.255
 DENY 10.61.0.0 0.0.255.255
+Deny 10.71.0.0 0.0.255.255
 Permit Any
 Int Gi 0/0/1
- ip access-group NOCLASSMATE in
+ ip access-group NOCLASSMATE1 in
  end
 
 TASK3: When you become a Security Analyst:
