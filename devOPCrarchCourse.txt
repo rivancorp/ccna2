@@ -12,7 +12,7 @@ PYTHON, LINUXBASH, RESTAPI, NETCONF.
 !!
 config t
 iox
-interface GigabitEthernet1
+interface GigabitEthernet2
 ip address dhcp
 ip nat outside
 no shut
@@ -23,7 +23,7 @@ ip address 192.168.35.1 255.255.255.0
 ip nat inside
 exit
 !
-ip nat inside source list GS_NAT_ACL interface GigabitEthernet1 overload
+ip nat inside source list GS_NAT_ACL interface GigabitEthernet2 overload
 ip access-list standard GS_NAT_ACL
 permit 192.168.0.0 0.0.255.255
 !
