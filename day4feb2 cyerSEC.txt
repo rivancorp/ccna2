@@ -188,9 +188,9 @@ intentionally hackable websites
 8. OWASP Mutillidae II
 9. HackThis!!
 
-task6: How to Make CUCM intentionally hackable to Learn
+task6: How to Make CISCOLINUX/ CUCM intentionally hackable to Learn
 the Basics for Firewalls.
-before: nmap -v 10.m.100.8
+before: nmap -v 10.m.100.8,  C> nmap 
 @Cucm: = fa 0/0/ or CSR1000v = gi3
 config t
 int Gi 3
@@ -223,30 +223,30 @@ BlueTeam: UTM: unified Threat management:
 3. EnterpriseAnti-Virus
 4. IntrusionDetection/IntrusionPrevention
 5  Network Admissions Control.
-Top 5 UTM: 1.FortinetFortigate:
+Top 5 UTM: 1.FortinetFortigate: syet
            1.1: Palo Alto:superSuplado
            2. Checkpoint
            3.4 Cisco
 
 CYBERSECURITY TASK7: PROTECTING YOUR CORPORATE WEB APPS.
-EX.1 CREATE A FIREWALL POLICY NAMED PROWEBAPP1 TO OPEN
+EX.1 CREATE A FIREWALL POLICY NAMED Policy1 TO OPEN
 WWW.WEB8.COM HAS HTTP AND HTTPS AS OPEN
 WWW.WEB9.COM HAS SSH AND DNS OPEN
 formula:       PROTOCOL    HACKER    VICTIM     PORT:
 config t
-no ip access-list extended PROWEBAPP1
-ip access-list extended PROWEBAPP1
+no ip access-list extended Policy1
+ip access-list extended Policy1
 Permit tcp any host www.web8.com eq 80 log
 Permit tcp any host www.web8.com eq 443 log
 Permit tcp any host www.web9.com eq 22 log
 Permit tcp any  host www.web9.com eq 53 log
 Interface Gi 3
- ip access-group PROWEBAPP1 in
- do sh ip access-list PROWEBAPP1
+ ip access-group Policy1 in
+ do sh ip access-list Policy1
 
 EX.2 CREATE A FIREWALL POLICY NAMED PROWEBAPP2 TO OPEN
-WWW.WEB8.COM HAS HTTPS AS OPEN
-WWW.WEB9.COM HAS HTTPS OPEN
+WWW.WEB8.COM HAS HTTPS,PING AS OPEN
+WWW.WEB9.COM HAS HTTPS,PING OPEN
 formula:       PROTOCOL      HACKER      VICTIM       PORT:
        tcp, udp, icmp, IP    any       web8,web9
 Ports: 
@@ -270,11 +270,12 @@ Interface Gi 3
  do sh ip access-list PROWEBAPP1
 
 EX.4 CREATE A FIREWALL POLICY NAMED ProtectWEB1 TO OPEN
-WWW.WEB8.COM HAS dns, https open
+WWW.WEB8.COM HAS dns, https,telnet open
 WWW.WEB9.COM HAS ssh, http, ping/icmp. open
 config t
 no ip access-list extended ProtectWEB1
 ip access-list extended ProtectWEB1
+Permit tcp any host www.web8.com eq 23 log
 Permit tcp any host www.web8.com eq 53 log
 Permit tcp any host www.web8.com eq 443 log
 Permit tcp any host www.web9.com eq 22 log
