@@ -213,7 +213,7 @@ config t
 	 description VOICEVLAN
 
 TASK3: THE ULTIMATE SKILL FOR A NETWORK ENGINEER.
-Top 5 brands:
+Top 5 brands: PANG MAYAMAN
 1.Cisco = 75% =google,aws,azure,etc,
         Cisco Invented the FirstEthernetSW
         Cisco Patent Expires.
@@ -332,7 +332,7 @@ kabit PC = 30s
 putol trunk, recover =30s, acceptable? BANK,HOst,Pol,Mil
 
 TASK10: Rapid Spanning-tree Protocol: 802.1w
-TAAs/BABA: tikam si wonderWoman
+TAAs/BABA: tikam si wonderWoman/bilis labasan
 config t
 spanning-tree Mode Rapid-pvst
 do sh spanning-tree vlan 1
@@ -358,10 +358,10 @@ end
 #sh int status err-disabled 
 TAAS: bounce/UP/down, bring BACK TO LIFE.
 config t
-int fa 0/3
+int fa 0/1
  shut
  no shut
-int fa 0/7
+int fa 0/3
  shut
  no shut
 end
