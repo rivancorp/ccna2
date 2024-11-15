@@ -63,11 +63,11 @@ ex.1: show ip int brief
 #!/usr/bin/env python
 import cli
 
-cmd_1 = [
+pythonko1 = [
     "show ip int brief",
 ]
 
-for c in cmd_1:
+for c in pythonko1:
     cli.executep(c)
 	
 	
@@ -108,7 +108,7 @@ ex.5: Create 4 loopbacks:
 
 import cli
 
-config_2 = '''hostname Mr_Robert
+pythonko_1 = '''hostname DEVOPSnaAKO
 int loop 9
 ip add 9.9.9.9 255.255.255.255
 int loop 8
@@ -118,7 +118,7 @@ ip add 7.7.7.7 255.255.255.255
 end
 '''
 
-cli.configurep(config_2)
+cli.configurep(pythonko_1)
 
 ex.6
 
