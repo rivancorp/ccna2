@@ -1,6 +1,6 @@
 !@@@CORE SWITCH SA TAAS
 config t
-   hostname COREtaas18
+   hostname COREtaas__12
    enable secret pass
    service password-encryption
    no logging console
@@ -15,25 +15,25 @@ config t
       exec-timeout 0 0
    Int Vlan 1
      no shutdown
-	 ip add 10.18.1.2 255.255.255.0
+	 ip add 10.__.1.2 255.255.255.0
 	 description MGMTDATA
    Int Vlan 10
      no shutdown
-	 ip add 10.18.10.2 255.255.255.0
+	 ip add 10.__.10.2 255.255.255.0
 	 description WIRELESS
    Int Vlan 50
      no shutdown
-	 ip add 10.18.50.2 255.255.255.0
+	 ip add 10.__.50.2 255.255.255.0
 	 description IPCCTV
    Int Vlan 100
      no shutdown
-	 ip add 10.18.100.2 255.255.255.0
+	 ip add 10.__.100.2 255.255.255.0
 	 description VOICEVLAN
 
 !!!DAPAT 7 UNDER SCORE ANG NA EDIT MO  ( LINE 34 to 68 PASTE TO COREBABA SWITCH )
 !@@@LeafSwitchONLY
 config t
-   hostname COREbaba18
+   hostname COREbaba__
    enable secret pass
    service password-encryption
    no logging console
@@ -145,7 +145,7 @@ config t
 ip routing
 ip dhcp pool CAMERA6
 host 10._.50.6 255.255.255.0
-client-identifier 001a.0709.c258
+client-identifier 001a.0704.7f5b
 ip dhcp pool CAMERA8
 host 10._.50.8 255.255.255.0
 client-identifier ____.____.____
@@ -195,28 +195,28 @@ telephony-service
    no auto-reg-ephone
    max-ephones 5
    max-dn 20
-   ip source-address 10.12.100.8 port 2000
+   ip source-address 10.__.100.8 port 2000
    create cnf-files
 ephone-dn 1
-  number 1211
+  number __11
 ephone-dn 2
-  number 1222
+  number __22
 ephone-dn 3
-  number 1233
+  number __33
 ephone-dn 4
-  number 1244
+  number __44
 ephone-dn 5
-  number 1255
+  number __55
 ephone-dn 6
-  number 1266
+  number __66
 ephone-dn 7
-  number 1277
+  number __77
 ephone-dn 8
-  number 1288
+  number __88
  ephone-dn 9
-   number 1299
+   number __99
 ephone-dn 10
- number 1298
+ number __98
 Ephone 1
   Mac-address ccd8.c1fb.2325
   type 8945
@@ -320,7 +320,7 @@ dial-peer voice 82 Voip
 @@@@@@
 !@@@EDGE ROUTE CONFIG
 config t
-   hostname EDGE-m
+   hostname EDGE-___
    enable secret pass
    service password-encryption
    no logging console
@@ -334,16 +334,16 @@ config t
       login
       exec-timeout 0 0
    Int Gi 0/0/0
-     description INSIDE
-     ip add 10.m.m.1 255.255.255.0
+     description FIBEROPTIC-TO-SWITCH
+     ip add 10.__.__.1 255.255.255.0
 	 no shutdown
    Int Gi 0/0/1
-     description OUTSIDE
-	 ip add 200.0.0.m 255.255.255.0
+     description PLDT-ME-WAN
+	 ip add 200.0.0.__ 255.255.255.0
 	 no shutdown
    Int Loopback 0
-     description VIRTUALIP
-	 ip add m.0.0.1 255.255.255.255
+     description VIRTUALIP-FOR-ROUTING
+	 ip add __.0.0.1 255.255.255.255
  end
 
 OPEN SHORTEST PATH FIRST/OSPF CONFIG.
@@ -353,10 +353,10 @@ sirc: sh ip route connected
 @EDGE:
 config t
 router ospf 1
-router-id ._.0.0.1
+router-id _.0.0.1
 network 200.0.0.0  0.0.0.255 area 0
-network 10._.._.0  0.0.0.255 area 0
-network ._.0.0.1  0.0.0.0 area 0
+network 10._._.0  0.0.0.255 area 0
+network _.0.0.1  0.0.0.0 area 0
 Interface gi 0/0/0
  ip ospf network point-to-point
 end
@@ -368,12 +368,13 @@ router-id 10._._.4
 network 10._.0.0  0.0.255.255 area 0
 int gi 0/1
  ip ospf network point-to-point
+end
 
 @CUCM:
 config t
 router ospf 1
-router-id 10._.100.8
-network 10._.100.0  0.0.0.255  area 0
+router-id 10.41.100.8
+network 10.41.100.0  0.0.0.255  area 0
 end
 
 
