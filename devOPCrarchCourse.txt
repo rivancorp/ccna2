@@ -48,6 +48,14 @@ CSR1k#
 CSR1k#guestshell run bash
 [guestshell@guestshell ~
 
+sudo su
+sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo
+sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo
+sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
+yum clean all && yum -y update
+
+
+
 CSR1k#guestshell run py
 CSR1k#guestshell run python
 Python 2.7.5 (default, Apr 11 2018, 07:36:10) 
