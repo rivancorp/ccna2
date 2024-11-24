@@ -113,7 +113,7 @@ ip dhcp pool _____.com
  dns-server 10.m.1.10
  option 150 ip 10.m.100.8
  Int Fa 0/7
-  swi acc vlan 25
+  swi Voice vlan 25
   do sh ip dhcp binding
 
 Ex.5.3: Compute and Configure SYKESASIA.com
