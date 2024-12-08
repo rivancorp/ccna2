@@ -421,23 +421,38 @@ ping 8.8.8.8   1.1.1.1  4.2.2.2  8.8.4.4
 TASK9: NAT: NETWORK ADDRESS TRANSLATION SERVICE:
 nat, proxy, hotspot, tethering, = PENGE INTERNET
 Give Internet to your Entire building USING CISCO:
+
+network address translation: NAT GIVE internet to 
+entire companies/buildings.
+linBld2:
+sudo su
+ifconfig eth0 192.168.102.100 netmask 255.255.255.0 up
+route add default gw 192.168.102.11
+ping 192.168.102.11
+
+linBld3:
+sudo su
+ifconfig eth0 192.168.103.100 netmask 255.255.255.0 up
+route add default gw 192.168.103.11
+ping 192.168.103.11
+
 STEP1: define INSIDE AND OUTSIDE:
 STEP2: create Access-list to permit IP of Inside:
 STEP3: create a NAT pool with overload
 @vpnPH:
 config t
-int gi 2
-ip nat OUTSIDE
 int gi 1
+ip nat OUTSIDE
+int gi 2
 ip nat INSIDE
 int gi 3
 ip nat INSIDE
-no access-list 7
-access-list 7 permit 192.168.101.0 0.0.0.255
-access-list 7 permit 192.168.103.0 0.0.0.255
-ip nat inside source list 7 interface Gi 2 overload
-ip nat inside source static 192.168.103.11 192.168.108.69
-ip nat inside source static 192.168.103.12 192.168.108.88
+no access-list 9
+access-list 9 permit 192.168.102.0 0.0.0.255
+access-list 9 permit 192.168.103.0 0.0.0.255
+ip nat inside source list 9 interface Gi 1 overload
+ip nat inside source static 192.168.102.100 208.8.8.69
+ip nat inside source static 192.168.103.100 208.8.8.88
 end
 FW-VPN-PH#show ip nat translations 
 Pro  Inside global         Inside local          Outside local         Outside global
