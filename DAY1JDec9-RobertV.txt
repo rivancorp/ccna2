@@ -324,7 +324,7 @@ dial-peer voice 82 Voip
 @@@@@@
 !@@@EDGE ROUTE CONFIG
 config t
-   hostname EDGE-___
+   hostname EDGE-__
    enable secret pass
    service password-encryption
    no logging console
@@ -377,8 +377,8 @@ end
 @CUCM:
 config t
 router ospf 1
-router-id 10.41.100.8
-network 10.41.100.0  0.0.0.255  area 0
+router-id 10.__.100.8
+network 10._.100.0  0.0.0.255  area 0
 end
 
 
@@ -429,7 +429,7 @@ route  add  200.0.0.0   mask  255.255.255.0   10._.1.4
 ********************************************
 
  
-@@@@@@@@@
+@@@@@@@@@IVRS: interActive Voice Response System: maticSagot
 
 config t
 dial-peer voice 69 voip
@@ -469,7 +469,33 @@ application
   param queue-manager-debugs 1
   param number-of-hunt-grps 4
 ****************************************************************************
-INSTALL DNS - DOMAIN NAME SERVER
+HOW TO FIX THE SHYT
+config t
+ application
+  no service callqueue flash:app-b-acd-2.1.2.2.tcl
+  no service rivanaa flash:app-b-acd-aa-2.1.2.2.tcl
+!!!THEN PASTE ALL IVR COMMANDS AGAIN
+****************************************************************************
+
+OPEN CMD                 DNS
+1. ping 10.M.1.10        PC
+   ping 10.m.1.4         sw
+2. ping 10.M.100.8       cm
+   ping 10.m.50.6        c6
+   ping 10.m.50.8        c8
+   ping 10.m.100.101     p1
+   ping 10.m.100.102     p2
+3. ping 10.M.M.1         ed
+4. ping 200.0.0.M
+5. ping 200.0.0.K
+6. ping 10.21.1.10
+   ping 10.22.1.10
+   ping 10.31.1.10
+   ping 10.32.1.10
+   ping 10.41.1.10
+   ping 10.42.1.10
+
+INSTALL DNS - DOMAIN NAME SERVER/system
 
 OPEN CMD
 
