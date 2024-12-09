@@ -142,15 +142,17 @@ Int Fa 0/7
  switchport access vlan 1
  end
 
-!IP CAMERAS NEED MAC ADDRESS RESERVATION FOR FIXED IP  (LINE 144 to 151 PASTE TO COREBABA)
+!IP CAMERAS NEED MAC ADDRESS RESERVATION FOR FIXED IP SECURITY.  (LINE 144 to 151 PASTE TO COREBABA)
 config t
 ip routing
 ip dhcp pool CAMERA6
 host 10._.50.6 255.255.255.0
-client-identifier 001a.0704.7f5b
+client-identifier ____.____.____
 ip dhcp pool CAMERA8
 host 10._.50.8 255.255.255.0
-client-identifier ____.____.____
+client-identifier____.____.____
+end
+show ip dhcp binding
 
 !!cisco unified call manager Express command
 !@@@CUCM-M
@@ -189,7 +191,7 @@ dial-peer voice 4 pots
    port 0/0/3
 end
 
-!!IP telephony
+!!IP telephony or Six Digit Salary.
 config t   
 no telephony-service
 telephony-service
@@ -220,7 +222,7 @@ ephone-dn 8
 ephone-dn 10
  number __98
 Ephone 1
-  Mac-address ccd8.c1fb.2325
+  Mac-address ____.____.____
   type 8945
   button 1:8 2:7 3:6 4:5
   restart
