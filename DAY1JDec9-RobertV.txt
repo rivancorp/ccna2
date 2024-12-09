@@ -1,6 +1,6 @@
 !@@@CORE SWITCH SA TAAS
 config t
-   hostname COREtaas__12
+   hostname COREtaas-12
    enable secret pass
    service password-encryption
    no logging console
@@ -29,11 +29,12 @@ config t
      no shutdown
 	 ip add 10.__.100.2 255.255.255.0
 	 description VOICEVLAN
+end
 
 !!!DAPAT 7 UNDER SCORE ANG NA EDIT MO  ( LINE 34 to 68 PASTE TO COREBABA SWITCH )
 !@@@LeafSwitchONLY
 config t
-   hostname COREbaba__
+   hostname COREbaba-_
    enable secret pass
    service password-encryption
    no logging console
@@ -66,6 +67,7 @@ config t
      no shutdown
 	 ip add 10._.100.4 255.255.255.0
 	 description VOICEVLAN
+end
 	 
 !DHCP: DYNAMIC HOST CONFIGURATION PROTOCOL
 !!!DAPAT 21 UNDER SCORE ANG NA EDIT MO  ( LINE 72 to 99 PASTE TO COREBABA SWITCH )
@@ -137,7 +139,7 @@ Int Fa 0/7
   switchport mode access
   switchport voice vlan 100 
   mls qos trust device cisco-phone 
- switchoprt access vlan 1
+ switchport access vlan 1
  end
 
 !IP CAMERAS NEED MAC ADDRESS RESERVATION FOR FIXED IP  (LINE 144 to 151 PASTE TO COREBABA)
