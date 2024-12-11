@@ -191,6 +191,7 @@ network 10.1.1.8 0.0.0.3 area 0
 interface e1/2
    ip ospf network point-to-point
    !eto lab sa exam sa 2024/2025
+end
 R3:
 config t
 Int loopback 0
@@ -202,7 +203,7 @@ network 10.1.1.4 0.0.0.3 area 0
 network 10.1.1.8 0.0.0.3 area 0
 interface e1/2
    ip ospf network point-to-point
-
+end
 R2:
 config t
 Int loopback 0
@@ -213,8 +214,9 @@ network 2.2.2.2 0.0.0.0 area 0
 network 10.1.1.4 0.0.0.3 area 0
 network 10.1.1.0 0.0.0.3 area 0
 interface e1/2
-   ip ospf network point-to-point
+   ip ospf priority 255
   !! eto mismo ang Lab mo:
+end
 R1:
 config t
 Int loopback 0
@@ -224,7 +226,8 @@ router-id 1.1.1.1
 network 1.1.1.1 0.0.0.0 area 0
 network 10.1.1.0 0.0.0.3 area 0
 interface e1/0
-   ip ospf network point-to-point
+   ip ospf priority 0
+end
 
 OSPF checking:
 SIP: sh ip protocols
@@ -351,6 +354,7 @@ R1:
 CONFIG t
 router ospf 1
 Default-Information Originate
+end
 
 r4:ping 8.8.8.8
 p1:ping 8.8.8.8
