@@ -2,18 +2,25 @@ python.exe -m pip install --upgrade pip
 pip install ascii_magic
 pip install beautifulsoup4
 pip install requests
-
+##update linux repository for apps.
+repo_file=/etc/yum.repos.d/CentOS-Base.repo
+cp ${repo_file} ~/CentOS-Base.repo.backup
+sudo sed -i s/#baseurl/baseurl/ ${repo_file}
+sudo sed -i s/mirrorlist.centos.org/vault.centos.org/ ${repo_file}
+sudo sed -i s/mirror.centos.org/vault.centos.org/ ${repo_file}
+sudo yum clean all
 
 #Task1
 enable IOX:
 
 Bigayan ng Alak,Droga,Escatisy,ruby is Cisco para lumabas ang
+pagme alak, may Balak gawin!, Pag may Docker, may Balak andarin.
 PYTHON, LINUXBASH, RESTAPI, NETCONF.
 !!
 config t
 iox
 interface GigabitEthernet1
-ip address dhcp
+no ip address dhcp
 ip nat outside
 no shut
 exit
