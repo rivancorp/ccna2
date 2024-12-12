@@ -524,7 +524,51 @@ icmp 192.168.108.88:57096  192.168.103.12:57096  8.8.8.8:57096         8.8.8.8:5
 icmp 192.168.108.88:56584  192.168.103.12:56584  8.8.4.4:56584         8.8.4.4:56584
 Total number of translations: 7
 
-FW-VPN-PH#
+CONFIGURING CISCO NETWORK SERVICES: 
+1. NETWORK TIME PROTOCOL: NTP uses udp port 123 makes all devices use same time.
+cmd
+C:\>nmap -sU time.google.com
+PORT      STATE  SERVICE
+123/udp   open   ntp
+33459/udp closed unknown
+
+Configure R1-Fw to use time.google.com ntp server.
+config t
+ntp server time.google.com
+end
+sh ntp assoc
+sh ntp status
+show ntp associations detail
+
+2. SecureShellServer: ssh version 2.
+stepS: domainName, rsa 1024/2048, ssh config:
+config t
+ip domain-name rivanit.com
+username rob privilege 15 secret pass
+crypto key generate rsa
+ip ssh version 2
+ip ssh time-out 120
+line vty 0 30
+login local
+end
+
+IPSEC VPN SITE TO SITE:
+linBld2:
+sudo su
+ifconfig eth0 10.10.10.100 netmask 255.255.255.0 up
+route add default gw 10.10.10.11
+ping 10.10.10.11
+
+linBld3:
+sudo su
+ifconfig eth0 10.20.20.100 netmask 255.255.255.0 up
+route add default gw 10.20.20.12
+ping 10.20.20.12
+@r2-fwvPN:
+CONFIG T
+int gi 3
+ ip add 10.20.20.12 255.255.255.0
+end
 
 TASK10: DO YOU HAVE TO REPLACED BY A.I AT WORK? REPLACED BY
 YOUNGER, SMARTER, CHEAPER NEW HIRES?? HOW TO BE UNTOUCHABLE EMPLOYEE?
