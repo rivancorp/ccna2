@@ -59,8 +59,8 @@ ip add 192.168.103.11 255.255.255.0
 ALL THE PORN SITES THE WORLD ARE OWNED BY 5 COMPANIES:
 
 config t
-NO ip access-list standard NOPORN1
-ip access-list standard NOPORN1
+NO ip access-list standard NOPORNFAP
+ip access-list standard NOPORNFAP
 DENY 66.254.0.0 0.0.255.255
 DENY 104.21.0.0 0.0.255.255
 DENY 68.235.0.0 0.0.255.255
@@ -70,14 +70,73 @@ DENY 208.77.0.0 0.0.255.255
 DENY 172.67.0.0 0.0.255.255
 Permit Any
 Int Gi 1
- ip access-group NOPORN1 in
- end
+ ip access-group NOPORNFAP in
+end
+Goberno: allow all Porn, for freedom of expression!
+config t
+Int gi 1
+ NO ip access-group NOPORNFAP in
+end
+
+Alternative: use standard ACL 1-99
+config t
+no access-list 69
+access-list 69 DENY 66.254.0.0 0.0.255.255
+access-list 69 DENY 104.21.0.0 0.0.255.255
+access-list 69 DENY 68.235.0.0 0.0.255.255
+access-list 69 DENY 104.17.0.0 0.0.255.255
+access-list 69 DENY 88.208.0.0 0.0.255.255
+access-list 69 DENY 208.77.0.0 0.0.255.255
+access-list 69 DENY 172.67.0.0 0.0.255.255
+access-list 69 permit Any
+Int gi 1
+ ip access-group 69 in
+end
+Goberno: allow all Porn, for freedom of expression!
+config t
+Int gi 1
+ NO ip access-group 69 in
+end
+
 Task1.2: block admu.edu.ph, dlsu.edu.ph, ccp.edu.ph, ue.edu.ph
 
-ping www.dlsu.edu.ph 172.67.14.0
-ping www.ccp.edu.ph 50.6.160.0
-ping www.feu.edu.ph 184.168.125.0
-ping  www.ue.edu.ph 155.137.92.0
+ping www.dlsu.edu.ph 172.67.14.0   104.22.36.0
+ping www.ccp.edu.ph 50.6.160.0     
+ping www.feu.edu.ph 184.168.125.0  
+ping  www.ue.edu.ph 155.137.92.0  
+ping  www.yourschool.edu.ph = _________
+config t
+NO ip access-list standard NOISKUL
+ip access-list standard NOISKUL
+DENY   __.__.__.__   0.0.255.255
+DENY   __.__.__.__   0.0.255.255
+DENY   __.__.__.__   0.0.255.255
+DENY   __.__.__.__   0.0.255.255
+DENY   __.__.__.__   0.0.255.255
+Permit Any
+Int Gi 1
+ ip access-group NOISKUL in
+end
+YOUR COMPANY IS HAS VERY LOW INTERNET SPEED, BEC OF TORRENTS:
+www.thepiratebay.org
+www.limetorrents.com
+www.freeanimeonline.com
+www.torlock2.com
+www.hentaisites.com
+www.iptorrents.com
+
+config t
+NO ip access-list standard NOTORS
+ip access-list standard NOTORS
+DENY   __.__.__.__   0.0.255.255
+DENY   __.__.__.__   0.0.255.255
+DENY   __.__.__.__   0.0.255.255
+DENY   __.__.__.__   0.0.255.255
+DENY   __.__.__.__   0.0.255.255
+Permit Any
+Int Gi 1
+ ip access-group NOTORS in
+end
 
 TASK2: USE STANDARD ACCESS-LIST TO BLOCK OTHER CONTRIES/CLASSMATE:
 config t
