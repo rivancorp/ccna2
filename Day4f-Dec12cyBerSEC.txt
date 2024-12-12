@@ -290,7 +290,7 @@ Top 5 UTM: 1.FortinetFortigate: syet
            3.4 Cisco
 
 Firewall Profile no.1: use ExtendedACL vs NamedExtendedAcl:
-ex.1: you are the admin for pogo sites:
+ex.1: you are the Blue Team/SOC guys for pogo sites:
 www.web310.com open only http, https, ping
 www.web311.com open only dns, https, ssh       ==> 6 lines:
   GOLDEN  FIREWALL FORMULA:  paloalto,fortinet,cisco,checkpoint.
@@ -308,7 +308,7 @@ IP access-list Extended FWP1
  Permit icmp Any host www.web310.com log
  Permit tcp Any host www.web311.com eq 53 log
  Permit tcp Any host www.web311.com eq 443 log
- Permit tcp Any host www.web311.com eq 22 log 
+ Permit tcp Any host www.web311.com eq 22 log
  Int Gi 3
   ip access-group FWP1 in
 REMOVE FIREWALL:
@@ -485,9 +485,9 @@ network address translation: NAT GIVE internet to
 entire companies/buildings.
 linBld2:
 sudo su
-ifconfig eth0 192.168.102.100 netmask 255.255.255.0 up
-route add default gw 192.168.102.11
-ping 192.168.102.11
+ifconfig eth0 10.10.10.100 netmask 255.255.255.0 up
+route add default gw 10.10.10.11
+ping 10.10.10.11
 
 linBld3:
 sudo su
@@ -506,11 +506,11 @@ int gi 2
 ip nat INSIDE
 int gi 3
 ip nat INSIDE
-no access-list 9
-access-list 9 permit 192.168.102.0 0.0.0.255
-access-list 9 permit 192.168.103.0 0.0.0.255
-ip nat inside source list 9 interface Gi 1 overload
-ip nat inside source static 192.168.102.100 208.8.8.69
+no access-list 8
+access-list 8 permit 10.10.10.0 0.0.0.255
+access-list 8 permit 192.168.103.0 0.0.0.255
+ip nat inside source list 8 interface Gi 1 overload
+ip nat inside source static 10.10.10.100 208.8.8.69
 ip nat inside source static 192.168.103.100 208.8.8.88
 end
 FW-VPN-PH#show ip nat translations 
