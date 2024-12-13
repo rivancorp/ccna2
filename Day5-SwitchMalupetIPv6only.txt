@@ -1,3 +1,7 @@
+BINARY TO HEX TO DECIMAL
+
+8  4  2   1    8  4  2   1     8  4  2   1    8  4  2   1 
+
 Task1: 5 mins answers:
 #PAGE 17 
 
