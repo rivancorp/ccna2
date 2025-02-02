@@ -293,13 +293,14 @@ TASK7: Enter the World of BlueTeam: Protect vs Redteam: Attack,
 BlueTeam: UTM: unified Threat management:
 1. firewall
 2. VPN
-3. EnterpriseAnti-Virus
+3. EnterpriseAnti-Virus/ EndPoint Protection
 4. IntrusionDetection/IntrusionPrevention
 5  Network Admissions Control.
 Top 5 UTM: 1.FortinetFortigate: syet
            1.1: Palo Alto:superSuplado
            2. Checkpoint
            3.4 Cisco
+           4. sophos/Mahirap Ka.
 
 Firewall Profile no.1: use ExtendedACL vs NamedExtendedAcl:
 ex.1: you are the Blue Team/SOC guys for pogo sites:
@@ -331,14 +332,14 @@ end
 
 TAKASSSSSSSSG:  control shift 6 bitaw X
 
-ex.2: you are the admin for pogo sites:
+ex.2: you are the admin for pogo sites: WAF2
 www.web310.com open only ssh,dns, http
-www.web311.com open only telnet, ssh, https, ping/icmp => 7lines
+www.web311.com open only telnet, ssh, https, ping/icmp => 7lines 
   GOLDEN  FIREWALL FORMULA:  paloalto,fortinet,cisco,checkpoint.
    protocol         hacker    victim       port
 config t
-NO IP access-list Extended FWP2
-IP access-list Extended FWP2
+NO IP access-list Extended WAF2
+IP access-list Extended WAF2
  Permit tcp Any host www.web310.com eq __ log
  Permit tcp Any host www.web310.com eq __ log
  Permit tcp Any host www.web310.com eq __ log
@@ -347,11 +348,11 @@ IP access-list Extended FWP2
  Permit tcp Any host www.web311.com eq __ log 
  Permit ___  Any host www.web311.com log
  Int Gi 3
-  ip access-group FWP2 in
+  ip access-group WAF2 in
 REMOVE FIREWALL:
 CONfig t
  Int Gi 3
-  ip access-group FWP2 in
+  NO ip access-group WAF2 in
 end
 
 ex.3: you are the admin for SUPERPRANING pogo sites:
@@ -367,23 +368,23 @@ Int Gi 3
 
 CYBERSECURITY TASK7: PROTECTING YOUR CORPORATE WEB APPS.
 EX.1 CREATE A FIREWALL POLICY NAMED Policy1 TO OPEN
-WWW.WEB8.COM HAS HTTP AND HTTPS AS OPEN
-WWW.WEB9.COM HAS SSH AND DNS OPEN
+WWW.WEB310.COM HAS HTTP AND HTTPS AS OPEN
+WWW.WEB311.COM HAS SSH AND DNS OPEN
 formula:       PROTOCOL    HACKER    VICTIM     PORT:
 config t
 no ip access-list extended Policy1
 ip access-list extended Policy1
-Permit tcp any host www.web8.com eq 80 log
-Permit tcp any host www.web8.com eq 443 log
-Permit tcp any host www.web9.com eq 22 log
-Permit tcp any  host www.web9.com eq 53 log
+Permit tcp any host www.web310.com eq 80 log
+Permit tcp any host www.web310.com eq 443 log
+Permit tcp any host www.web311.com eq 22 log
+Permit tcp any  host www.web311.com eq 53 log
 Interface Gi 3
  ip access-group Policy1 in
  do sh ip access-list Policy1
 
 EX.2 CREATE A FIREWALL POLICY NAMED PROWEBAPP2 TO OPEN
-WWW.WEB8.COM HAS HTTPS,PING AS OPEN
-WWW.WEB9.COM HAS HTTPS,PING OPEN
+WWW.WEB310.COM HAS HTTPS,PING AS OPEN
+WWW.WEB311.COM HAS dns,PING OPEN
 formula:       PROTOCOL      HACKER      VICTIM       PORT:
        tcp, udp, icmp, IP    any       web8,web9
 Ports: 
@@ -477,6 +478,12 @@ is a layer 7 protocol using UDP 123
 configure your VPNPH to use time.google.com servers in USA:
 config t
 ntp server 216.239.35.8
+end
+show ntp associations
+How to Make CISCO DEVICE A MASTER time servers: tagaBigay ng Oras:
+config t
+ntp master 1
+ntp update-calendar
 end
 show ntp associations
 GIVE IP ADDRESS TO LINUX BLDGONE AND BLDGTWO:
