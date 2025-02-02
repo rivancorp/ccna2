@@ -29,6 +29,18 @@ New-Website -name "wtf1" -hostheader "www.ngcpM.ph" -physicalPath "d:\webs\datin
 CMD
 ping www.ngcpM.ph
 
+youporn.com
+pornhub.com 66.254.114.41
+redtube.com 66.254.114.23
+faketaxi.com 66.254.114.234
+bangbros.com
+txxx.com
+bangbus.com  104.21.5.229
+             172.67.133.243
+pinayflix.com 104.21.234.3
+xhamster.com 88.208.29.180
+iyottube.com 68.235.37.3
+             208.77.20.
 
 net  use  s: \\10.k.1.10\c$
 TASK1: PROTECT YOUR MOST IMPORTANT BUSINESS ASSET:
@@ -42,8 +54,8 @@ no logging console
 Int Gi 2
 no shut
 ip add 192.168.102.11 255.255.255.0
-@telnet use secureCRT: telnet 192.168.108.5
-in SEcureCRT, Paste This:
+!@telnet use secureCRT: telnet 192.168.108.5
+!in SEcureCRT, Paste This:
 config t
 IP ROUTE 0.0.0.0  0.0.0.0 208.8.8.2
 ip name-server 8.8.8.8 1.1.1.1
@@ -54,7 +66,7 @@ ip add 208.8.8.11 255.255.255.0
 int gi 3
 no shut
 ip add 192.168.103.11 255.255.255.0
-
+do sh ip int brief
 
 ALL THE PORN SITES THE WORLD ARE OWNED BY 5 COMPANIES:
 
@@ -80,17 +92,17 @@ end
 
 Alternative: use standard ACL 1-99
 config t
-no access-list 69
-access-list 69 DENY 66.254.0.0 0.0.255.255
-access-list 69 DENY 104.21.0.0 0.0.255.255
-access-list 69 DENY 68.235.0.0 0.0.255.255
-access-list 69 DENY 104.17.0.0 0.0.255.255
-access-list 69 DENY 88.208.0.0 0.0.255.255
-access-list 69 DENY 208.77.0.0 0.0.255.255
-access-list 69 DENY 172.67.0.0 0.0.255.255
-access-list 69 permit Any
+no access-list 25
+access-list 25 DENY 66.254.0.0 0.0.255.255
+access-list 25 DENY 104.21.0.0 0.0.255.255
+access-list 25 DENY 68.235.0.0 0.0.255.255
+access-list 25 DENY 104.17.0.0 0.0.255.255
+access-list 25 DENY 88.208.0.0 0.0.255.255
+access-list 25 DENY 208.77.0.0 0.0.255.255
+access-list 25 DENY 172.67.0.0 0.0.255.255
+access-list 25 permit Any
 Int gi 1
- ip access-group 69 in
+ ip access-group 25 in
 end
 Goberno: allow all Porn, for freedom of expression!
 config t
