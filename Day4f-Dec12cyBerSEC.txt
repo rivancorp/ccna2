@@ -557,14 +557,15 @@ CREATING A WEB PROXY OR HIDING BEHIND NAT:
 www.sti.edu.ph:      vs     www.dlsu.edu.ph:
 @EDGE:
 config t
-No access-list 8 permit 10.12.0.0 0.0.255.255
-Int Gi 0/0/0
+no access-lsit 8
+access-list 8 permit any
+Int Gi 3
  ip nat Inside
-Int gi 0/0/1
+Int gi 1
  ip nat Outside
-IP Nat inside source static tcp 10.12.1.10 80 200.0.0.112 8080
-IP Nat inside source static tcp 10.12.1.10 53 200.0.0.112 153
-IP nat inside source list 8 int gi 0/0/1 Overload
+IP Nat inside source static tcp 10.10.10.10 80 208.8.8.101 8080
+IP Nat inside source static tcp 10.10.10.11 80 208.8.8.101 8080
+IP nat inside source list 8 int gi 1 Overload
 end
 show ip nat translation
 
