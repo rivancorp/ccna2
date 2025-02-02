@@ -553,6 +553,33 @@ icmp 192.168.108.88:57096  192.168.103.12:57096  8.8.8.8:57096         8.8.8.8:5
 icmp 192.168.108.88:56584  192.168.103.12:56584  8.8.4.4:56584         8.8.4.4:56584
 Total number of translations: 7
 
+CREATING A WEB PROXY OR HIDING BEHIND NAT:
+www.sti.edu.ph:      vs     www.dlsu.edu.ph:
+@EDGE:
+config t
+No access-list 8 permit 10.12.0.0 0.0.255.255
+Int Gi 0/0/0
+ ip nat Inside
+Int gi 0/0/1
+ ip nat Outside
+IP Nat inside source static tcp 10.12.1.10 80 200.0.0.112 8080
+IP Nat inside source static tcp 10.12.1.10 53 200.0.0.112 153
+IP nat inside source list 8 int gi 0/0/1 Overload
+end
+show ip nat translation
+
+victim: nmap -v 200.0.0.100+k
+
+ExamLab Training: Make a PortAddressTranslation:
+10.m.1.9 22 --> 200.0.0.100+m 3022 =
+10.m.1.10 80 --> 200.0.0.100+m 8088 = 
+10.m.1.11 53 --> 200.0.0.100+m 4053 =
+config t
+IP Nat inside source static tcp 10.12.1.9 22 200.0.0.112 3022
+IP Nat inside source static tcp 10.12.1.10 80 200.0.0.112 8088
+IP Nat inside source static tcp 10.12.1.11 53 200.0.0.112 4053
+do sh ip nat translation
+
 CONFIGURING CISCO NETWORK SERVICES: 
 1. NETWORK TIME PROTOCOL: NTP uses udp port 123 makes all devices use same time.
 cmd
@@ -568,6 +595,55 @@ end
 sh ntp assoc
 sh ntp status
 show ntp associations detail
+
+#real world skills: site to site vpn tunnel:
+step1: prepare FWvpnPH:
+@edge
+CONFIG T
+IP ROUTE 0.0.0.0  0.0.0.0 208.8.8.2
+no logging console
+Int Gi 2
+no shut
+ip add 192.168.102.11 255.255.255.0
+ip name-server 8.8.8.8 1.1.1.1
+ip domain-lookup
+int gi 1
+no shut
+ip add 208.8.8.11 255.255.255.0
+int gi 3
+no shut
+ip add 10.10.10.1 255.255.255.0
+do sh ip int brief
+
+step2: prepare FWvpnJP:
+@edge
+CONFIG T
+IP ROUTE 0.0.0.0  0.0.0.0 208.8.8.2
+no logging console
+Int Gi 2
+no shut
+ip add 192.168.102.12 255.255.255.0
+ip name-server 8.8.8.8 1.1.1.1
+ip domain-lookup
+int gi 1
+no shut
+ip add 208.8.8.12 255.255.255.0
+int gi 3
+no shut
+ip add 20.20.20.1 255.255.255.0
+do sh ip int brief
+
+bldg1inPINAS
+sudo su
+ifconfig eth0 10.10.10.10 netmask 255.255.255.0 up
+route add default gw 10.10.10.1
+ping 10.10.10.1
+
+bldg2:inJAPAN
+sudo su
+ifconfig eth0 20.20.20.20 netmask 255.255.255.0 up
+route add default gw 20.20.20.1
+ping 20.20.20.1
 
 2. SecureShellServer: ssh version 2.
 stepS: domainName, rsa 1024/2048, ssh config:
