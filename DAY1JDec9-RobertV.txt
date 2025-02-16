@@ -1,3 +1,4 @@
+
 !@@@CORE SWITCH SA TAAS
 config t
    hostname COREtaas-12
@@ -68,7 +69,30 @@ config t
 	 ip add 10._.100.4 255.255.255.0
 	 description VOICEVLAN
 end
-	 
+
+WARNING: IF YOU SEE AMBER/ORANGE= NEEDS FIXING!!!
+
+Trunk Ports: switch to switch:
+TAAS/BABA:
+config t
+Int Range fa0/10-12
+ shutdown
+ no shutdown
+ switchport trunk Encap Dot1Q
+ switchport mode trunk
+ do sh int trunk
+end
+
+CCNPSkillsNow: Etherchannel with LinkAggregationControlProtocol:
+@taas/BABA:
+config t
+Int Range fa0/10-12
+ channel-group 1 mode active
+ channel-protocol Lacp
+ do sh etherchannel summary
+ do sh int po1 | inc BW
+
+
 !DHCP: DYNAMIC HOST CONFIGURATION PROTOCOL
 !!!DAPAT 21 UNDER SCORE ANG NA EDIT MO  ( LINE 72 to 99 PASTE TO COREBABA SWITCH )
 !@@@LEAF SWITCH
