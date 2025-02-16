@@ -84,6 +84,7 @@ Int Range fa0/10-12
 end
 
 CCNPSkillsNow: Etherchannel with LinkAggregationControlProtocol:
+WARNING: THREE CABLES IS BETTER THAN ONE!
 @taas/BABA:
 config t
 Int Range fa0/10-12
@@ -92,7 +93,7 @@ Int Range fa0/10-12
  do sh etherchannel summary
  do sh int po1 | inc BW
 
-
+TASK2***TASK2***TASK2***
 !DHCP: DYNAMIC HOST CONFIGURATION PROTOCOL
 !!!DAPAT 21 UNDER SCORE ANG NA EDIT MO  ( LINE 72 to 99 PASTE TO COREBABA SWITCH )
 !@@@LEAF SWITCH
