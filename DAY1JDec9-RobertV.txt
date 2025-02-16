@@ -93,7 +93,7 @@ Int Range fa0/10-12
  do sh etherchannel summary
  do sh int po1 | inc BW
 
-TASK2***TASK2***TASK2***
+
 !DHCP: DYNAMIC HOST CONFIGURATION PROTOCOL
 !!!DAPAT 21 UNDER SCORE ANG NA EDIT MO  ( LINE 72 to 99 PASTE TO COREBABA SWITCH )
 !@@@LEAF SWITCH
@@ -179,6 +179,9 @@ client-identifier____.____.____
 end
 show ip dhcp binding
 
+TASK2***TASK2***TASK2***
+TASK2***TASK2***TASK2***
+CALLMANAGER EXPRESS CONFIGURATION FOR VOIP/TELEPHONY ENGINEERS
 !!cisco unified call manager Express command
 !@@@CUCM-M
 config t
@@ -346,7 +349,9 @@ dial-peer voice 82 Voip
  session target ipv4:10.82.100.8
  codec g711ULAW
 
-@@@@@@
+TASK3***TASK3***TASK3***
+TASK3***TASK3***TASK3***
+PRIMARY EDGE ROUTER CONFIGURATION!
 !@@@EDGE ROUTE CONFIG
 config t
    hostname EDGE-__
@@ -412,7 +417,7 @@ end
 conf t
  ip routing 
  ip route 10.11.0.0 255.255.0.0 200.0.0.11
-! ip route 10.12.0.0 255.255.0.0 200.0.0.12
+ NO ip route 10.__.0.0 255.255.0.0 200.0.0._
  ip route 10.21.0.0 255.255.0.0 200.0.0.21
  ip route 10.22.0.0 255.255.0.0 200.0.0.22
  ip route 10.31.0.0 255.255.0.0 200.0.0.31
@@ -428,6 +433,7 @@ conf t
  ip route 10.81.0.0 255.255.0.0 200.0.0.81
  ip route 10.82.0.0 255.255.0.0 200.0.0.82
  ip route 10._.0.0 255.255.0.0 10._._.4
+ NO ip route 10.__.0.0 255.255.0.0 200.0.0._
  end
  
 *********************************************
@@ -581,7 +587,7 @@ CHECK AVAILABLE SERVICES
 conf t
         application
                 service ?  
-******************************************************************
+***********************************************************
 
 SIP CONFIGURATION
 conf t
@@ -592,13 +598,13 @@ conf t
   allow-connections sip to sip
   supplementary-service h450.12
  sip
-   bind control source-interface _____0/0
-   bind media source-interface _____0/0
+   bind control source-interface fa0/0
+   bind media source-interface fa0/0
    registrar server expires max 600 min 60
 !
  voice register global
   mode cme
-  source-address 192.168._.1 port 5060
+  source-address 10._.100.8 port 5060
   max-dn 12
   max-pool 12
   authenticate register
@@ -611,7 +617,7 @@ conf t
    number ___
    allow watch
    name _______
-          
+!
   voice register pool 1
     id mac ____.____.____
     number 1 dn 1
@@ -619,7 +625,7 @@ conf t
     username ____ password ____
     codec g711ulaw
 !
-  voice register pool 1
+  voice register pool 2
     id mac ____.____.____
     number 1 dn 2
     dtmf-relay sip-notify
