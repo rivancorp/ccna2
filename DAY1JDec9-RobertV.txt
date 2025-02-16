@@ -1,7 +1,7 @@
-
+TASK1: COLLAPSED BACKBONE: BASIC LAYER3 CONFIGURATION.
 !@@@CORE SWITCH SA TAAS
 config t
-   hostname COREtaas-12
+   hostname COREtaas-_
    enable secret pass
    service password-encryption
    no logging console
@@ -32,7 +32,7 @@ config t
 	 description VOICEVLAN
 end
 
-!!!DAPAT 7 UNDER SCORE ANG NA EDIT MO  ( LINE 34 to 68 PASTE TO COREBABA SWITCH )
+!!!DAPAT 7 UNDER_SCORE ANG NA EDIT MO  ( LINE 34 to 68 PASTE TO COREBABA SWITCH )
 !@@@LeafSwitchONLY
 config t
    hostname COREbaba-_
