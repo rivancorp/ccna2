@@ -1,4 +1,31 @@
 Day3 Network Engineer
+3.1 Interpret the components of routing table
+3.1.a Routing protocol code
+3.1.b Prefix
+3.1.c Network mask
+3.1.d Next hop
+3.1.e Administrative distance
+3.1.f Metric
+3.1.g Gateway of last resort
+
+3.2 Determine how a router makes a forwarding decision by default
+3.2.a Longest prefix match
+3.2.b Administrative distance
+3.2.c Routing protocol metric
+
+3.3 Configure and verify IPv4 and IPv6 static routing
+3.3.a Default route
+3.3.b Network route
+3.3.c Host route
+3.3.d Floating static
+
+3.4 Configure and verify single area OSPFv2
+3.4.a Neighbor adjacencies
+3.4.b Point-to-point
+3.4.c Broadcast (DR/BDR selection)
+3.4.d Router ID
+
+3.5 Describe the purpose, functions, and concepts of first hop redundancy protocols
 Task1: Review of Routing FUndamentals.
 rule: ping dikit, no dikit, no ping
 r1 to r4: ospf 1:
@@ -14,7 +41,7 @@ int e1/0
  do bp
 !These are floating Default Static routes with redundancy
  ip route 0.0.0.0 0.0.0.0 192.168.1.129 1
- ip route 0.0.0.0 0.0.0.0 192.168.1.130 2
+ ip route 0.0.0.0 0.0.0.0 192.168.1.130 5
  do sh ip route static
 @@S2
 config t
@@ -23,7 +50,7 @@ int e1/0
  ip add 10.2.2.133 255.255.255.0
  do bp
  ip route 0.0.0.0 0.0.0.0 10.2.2.2 1
- ip route 0.0.0.0 0.0.0.0 10.2.2.1 2
+ ip route 0.0.0.0 0.0.0.0 10.2.2.1 10
  do sh ip route static
 R4
 config t
@@ -37,11 +64,11 @@ ip dhcp excluded-add 10.2.1.200 10.2.1.254
 ip dhcp pool vlan10
   network 10.2.1.0 255.255.255.0
   default-router 10.2.1.254
-!#ipasok d1 port e1/0 sa vlan 200
+!#ipasok d1 port e1/0 sa vlan 100
 config t
 int e1/0
    switchport mode access
-   switchport access vlan 200
+   switchport access vlan 100
    do show vlan brief
 !
 D2:
@@ -60,7 +87,7 @@ int e1/0
    switchport access vlan 20
    do show vlan brief
 A1: lipat vlan from v1 to v10
-config t
+ config t
 int e0/0
  switchport mode access
  switchport access vlan 10
