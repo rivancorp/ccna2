@@ -1,0 +1,150 @@
+C1sc0123
+
+CCNP Enterprise: 
+Mininum Skills:
+ServerSide. 1. ADS (ldap) 2. x.500 CertificateServiceAuthority
+3. DHCP  4. NetworkPolicyServer: radius, 802.1x authentication.
+C1sc0123
+shell:priv-lvl=15
+
+task1: Radius Authentication for Switches/voiceGateway
+Authentication,Authorization,Accounting:
+Taas/Baba:
+config t
+AAA new-model
+username admin password pass
+radius-server host 10.12.1.8 key secret123
+ip radius source-interface vlan 1
+aaa authorization exec default group radius
+aaa authentication login default group radius local
+line vty 0 14
+  login authentication default
+end
+
+Task2: BALIK CCNA:
+config t
+no AAA new-model
+config t
+line vty 0 14
+ no login
+ login
+end
+
+TASK3: DEPLOYING CISCO 802.1X port based authencation using
+windows Certificates:
+config t
+aaa new-model
+aaa authentication dot1x default group radius
+aaa authorization network default group radius
+aaa accounting dot1x default start-stop group radius
+dot1x system-auth-control
+radius-server host 10.12.1.8 auth-port 1812 acct-port 1813 key secret123
+int fa 0/3
+  switchport mode access
+  authentication port-control auto
+  dot1x port-control auto
+  spanning-tree portfast
+end
+
+Newer/IOS/linux 802.1x config:
+conf t
+no aaa new-model
+aaa new-model
+dot1x system-auth-control
+radius-server host 10.m.1.8 auth-port 1812 acct-port 1813 key secret123
+aaa authentication dot1x default group radius
+aaa authorization network default group radius
+aaa accounting dot1x default start-stop group radius
+interface fastEthernet 0/5
+  switchport mode access
+  authentication port-control auto
+  dot1x pae authenticator
+  spanning-tree portfast
+end
+
+TASK5: CCNP ENCOR SKILL NO.5 LEARN NEXUS vs CATALYST.
+   $$$$$$bawal ang copy/paste$$$$$$$$$$
+VXLAN = vlan for datacenter: eastwest traffic:
+show feature
+config t
+feature ospf
+feature nv overlay
+feature vn-segment-vlan-based
+system jumbomtu 9216
+end
+copy run start
+#REALWORLD VXLAN config DCjp:
+config t
+router ospf 10
+exit
+int e1/1
+ no switchport
+ ip address 100.1.1.1/30
+ ip router ospf 10 area 0
+ no shutdown
+ exit
+Int loopback 0
+ ip address 10.10.10.10/32
+ ip router ospf 10 area 0
+exit
+vlan 50
+ vn-segment 5000
+exit
+interface eth 1/5-6
+ switchport
+ switchport access vlan 50
+ exit
+Interface Nve 1
+ no shutdown
+ source-interface loopback 0
+ member vni 5000
+  ingress-replication protocol static
+    peer-ip 20.20.20.20
+  exit
+
+$$$$$$$$$
+DATAcenterPH
+config t
+router ospf 10
+!
+interface eth 1/1
+ no switchport
+ ip address 100.1.1.2/30
+ ip router ospf 10 area 0
+ no shut
+interface loopback0
+ ip address 20.20.20.20/32
+ ip router ospf 10 area 0
+!
+vlan 50
+ vn-segment 5000
+exit
+interface ethernet 1/5-6
+  switchport
+  switchport access vlan 50
+  no shutdown
+!
+interface nve 1
+  no shutdown
+  source-interface loopback 0
+  member vni 5000
+   ingress-replication protocol static
+     peer-ip 10.10.10.10
+	 exit
+!
+How to check vxlan:
+show vxlan
+show nve peers
+show nve vni
+
+
+
+
+
+
+
+
+
+
+
+
