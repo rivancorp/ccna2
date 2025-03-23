@@ -248,7 +248,7 @@ Switch:  flash_init
 TASK5: HOW TO SPOT A VERY HEALTHY SWITCH?
 super healthy: "all flashing green."
 amber/orange: needs help. - you are protected
-
+##how to LEGallY steal your Expensive Cisco @ office:
 create vlans,
 transfer ports to vlans
 delete the vlan
@@ -269,9 +269,7 @@ config t
 NO spanning-tree vlan 1-999
 end
 AYUSIN ULET IS @taas: AT @baba
-config t
-spanning-tree vlan 1-999
-end
+9
 
 TASK7: HOW TO BECOME A WORLD-CLASS NETWORK ENGINEER
 SPECIALIZING IN SWITCH:
@@ -337,7 +335,7 @@ kabit PC = 30s
 putol trunk, recover =30s, acceptable? BANK,HOst,Pol,Mil
 
 TASK10: Rapid Spanning-tree Protocol: 802.1w
-TAAs/BABA: tikam si wonderWoman/bilis labasan
+TAAs/BABA: tikam si wonderWoman/bilis labasan: taas,baba,d1,d2,a1,a2:
 config t
 spanning-tree Mode Rapid-pvst
 do sh spanning-tree vlan 1
