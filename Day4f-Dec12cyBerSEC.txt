@@ -59,13 +59,16 @@ ip add 192.168.102.11 255.255.255.0
 config t
 IP ROUTE 0.0.0.0  0.0.0.0 208.8.8.2
 ip name-server 8.8.8.8 1.1.1.1
-ip domain-lookup
+ip domain lookup
 int gi 1
 no shut
 ip add 208.8.8.11 255.255.255.0
 int gi 3
 no shut
 ip add 192.168.103.11 255.255.255.0
+line vty 0 14
+ transport input all
+ exec-timeout 0 0
 do sh ip int brief
 
 ALL THE PORN SITES THE WORLD ARE OWNED BY 5 COMPANIES:
@@ -130,12 +133,12 @@ Int Gi 1
  ip access-group NOISKUL in
 end
 YOUR COMPANY IS HAS VERY LOW INTERNET SPEED, BEC OF TORRENTS:
-www.thepiratebay.org
-www.limetorrents.com
-www.freeanimeonline.com
-www.torlock2.com
-www.hentaisites.com
-www.iptorrents.com
+www.thepiratebay.org   162.159.
+www.limetorrents.com    172.67.
+www.freeanimeonline.com   76.223.
+www.torlock2.com   104.21.
+www.hentaisites.com 104.21.
+www.iptorrents.com  104.26.
 
 config t
 NO ip access-list standard NOTORS
@@ -299,7 +302,7 @@ BlueTeam: UTM: unified Threat management:
 Top 5 UTM: 1.FortinetFortigate: syet
            1.1: Palo Alto:superSuplado
            2. Checkpoint
-           3.4 Cisco
+           3.4 Cisco/Fortinet
            4. sophos/Mahirap Ka.
 
 Firewall Profile no.1: use ExtendedACL vs NamedExtendedAcl:
