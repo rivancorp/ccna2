@@ -589,11 +589,10 @@ conf t
                 service ?  
 ***********************************************************
 
-SIP CONFIGURATION
+SIP CONFIGURATION: session initiation Protocol: non-Cisco
 conf t
  voice service voip
-  allow-connections h323 to sip
-          
+  allow-connections h323 to sip    
   allow-connections sip to h323
   allow-connections sip to sip
   supplementary-service h450.12
