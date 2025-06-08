@@ -606,6 +606,9 @@ show ntp associations detail
 step1: prepare FWvpnPH:
 @edge
 CONFIG T
+line vty 0 14
+exec-timeout 0 0
+transport input all
 IP ROUTE 0.0.0.0  0.0.0.0 208.8.8.2
 no logging console
 Int Gi 2
@@ -624,6 +627,9 @@ do sh ip int brief
 step2: prepare FWvpnJP:
 @edge
 CONFIG T
+line vty 0 14
+exec-timeout 0 0
+transport input all
 IP ROUTE 0.0.0.0  0.0.0.0 208.8.8.2
 no logging console
 Int Gi 2
