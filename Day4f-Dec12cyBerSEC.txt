@@ -133,12 +133,12 @@ Int Gi 1
  ip access-group NOISKUL in
 end
 YOUR COMPANY IS HAS VERY LOW INTERNET SPEED, BEC OF TORRENTS:
-www.thepiratebay.org   162.159.
-www.limetorrents.com    172.67.
-www.freeanimeonline.com   76.223.
+www.thepiratebay.org   162.159.   104.21
+www.limetorrents.com    172.67.   84.32   104.21.
+www.freeanimeonline.com   76.223.  13.248
 www.torlock2.com   104.21.
-www.hentaisites.com 104.21.
-www.iptorrents.com  104.26.
+www.hentaisites.com 104.21.   
+www.iptorrents.com  104.26.   95.211.
 
 config t
 NO ip access-list standard NOTORS
@@ -567,9 +567,10 @@ Int Gi 3
 Int gi 1
  ip nat Outside
 IP Nat inside source static tcp 192.168.103.21 80 208.8.8.101 8080
-IP Nat inside source static tcp 192.168.103.21 22 208.8.8.101 8443
+IP Nat inside source static tcp 192.168.103.21 443 208.8.8.101 8443
+IP Nat inside source static tcp 192.168.103.21 22 208.8.8.101 8069
 IP Nat inside source static tcp 192.168.103.22 80 208.8.8.102 8080
-IP Nat inside source static tcp 192.168.103.22 22 208.8.8.102 8443
+IP Nat inside source static tcp 192.168.103.22 443 208.8.8.102 8443
 IP nat inside source list 8 int gi 1 Overload
 end
 show ip nat translation
