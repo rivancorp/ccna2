@@ -159,6 +159,28 @@ doh.gov.ph:  10.0.0.64/26
 broadcast: 
 not-doh.gov.ph: 10.0.0.128
 
+##########################
+### job interview L2 #####
+##########################
+J.O: What is CIDR: classless interdomail Routing:
+L2 ENG: "what IP address will I Order to Get 45 IP address:, heres: Pen,Paper"
+YOU: "Sorry, I dont need Paper, Lets save trees: Brains: 32 - 6bits = /26
+sir we gonna use /26 with .64 as networkAddres. .65 - .127"
+
+L2Eng: " i need around 100 ip address, what slash / "
+you: "100 is 7 bits, brain: /32-/7 = /25, 4th,128i
+
+L2Eng: " i need around 19 ip address, what slash / "
+you: " 19 is 5 bits, sa utak atras 5, = /27 32i, .33 1st
+
+L2Eng: " our company needs a PointToPoint Link WAN what / will i use? "
+YOu" you mean a 2 ip address network, 32 - 2 = /30, .4network
+1st usable .5, and .6 broacast: .7
+
+L2Eng: " our company needs a 245 ip addresses: / will i use? "
+YOu" you mean a 2 ip address network, 32 - 2 = /30, .4network
+1st usable .5, and .6 broacast: .7
+
 TASK6: On-Premise   vs  CloudBased  vs Hybrid
 
 ccna Routing:today/day3 and Switching:d5
