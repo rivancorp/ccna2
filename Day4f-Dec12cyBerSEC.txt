@@ -495,10 +495,12 @@ bldg1:
 sudo su
 ifconfig eth0 192.168.103.21 netmask 255.255.255.0 up
 route add default gw 192.168.103.11
+ping 192.168.103.11
 bldg2:
 sudo su
 ifconfig eth0 192.168.103.22 netmask 255.255.255.0 up
 route add default gw 192.168.103.11
+ping 192.168.103.11
 bldg3:
 sudo su
 ifconfig eth0 192.168.103.23 netmask 255.255.255.0 up
