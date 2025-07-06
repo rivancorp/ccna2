@@ -172,10 +172,10 @@ config t
 ip routing
 ip dhcp pool CAMERA6
 host 10._.50.6 255.255.255.0
-client-identifier ____.____.____
+client-identifier abcd.1234.cafb
 ip dhcp pool CAMERA8
 host 10._.50.8 255.255.255.0
-client-identifier____.____.____
+client-identifier abcd.1234.cafb
 end
 show ip dhcp binding
 
@@ -288,10 +288,10 @@ configure terminal
  destination-pattern 11..
  session target ipv4:10.11.100.8
  codec g711ULAW
- ! dial-peer voice 12 Voip
- ! destination-pattern 12..
- ! session target ipv4:10.12.100.8
- ! codec g711ULAW
+  dial-peer voice 12 Voip
+  destination-pattern 12..
+  session target ipv4:10.12.100.8
+  codec g711ULAW
 dial-peer voice 21 Voip
  destination-pattern 21..
  session target ipv4:10.21.100.8
