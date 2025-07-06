@@ -250,12 +250,12 @@ ephone-dn 8
 ephone-dn 10
  number __98
 Ephone 1
-  Mac-address ____.____.____
+  Mac-address cafe.face.baba
   type 8945
   button 1:8 2:7 3:6 4:5
   restart
 Ephone 2
-  Mac-address ____.____.____
+  Mac-address fafa.caca.baba
   type 8945
   button 1:4 2:3 3:2 4:1
   restart  
