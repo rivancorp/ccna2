@@ -49,20 +49,20 @@ TASK3: how a network/systems/Prog engineer looks
 
 TASK4: Bit Length:
 
-195 = 8b
-13 =  4b
-1750 =  11b
-1855 =  11b
-2,700 =  12b
-2 =  2b
-376 =  9b
-888 = 10b
-8 = 4b
-212 = 8b 
-4,500 = 13b
-81 = 7b
-20,000  = 15b  
-55 = 6b
+195 = b
+13 =  b
+1750 = 1b
+1855 =  b
+2,700 =  b
+2 =  b
+376 =  b
+888 = b
+8 = b
+212 = b 
+4,500 = b
+81 = b
+20,000  = b  
+55 = b
 
 TASK5: Subnetting:
 Large: 10.0.0..0/8 -> 16M
