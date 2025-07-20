@@ -8,6 +8,9 @@ cisco: show ip route
 
 3.1.a Routing protocol code: exclusive on Cisco,Juniper,Fortinet,Palo Alto
 Mr.Bodds = Mpls, Rip, Bgp, Ospf, D(eigrp),Default, StaticRouting
+admin distances:
+rip - 120, bgp -20/200, ospf - 110, eigrp -90, stat,def: 1
+
 
 3.1.b Prefix: A network Prefix is a Network Route:
 show ip route connected | inc C
@@ -18,6 +21,7 @@ the IP address of a PC is: 192.168.10.55/28, the IP address of a PC is: 192.168.
 the IP address of a PC is: 192.168.10.43/29, the IP address of a PC is: 192.168.10.40/29
 
 3.1.d Next hop: Is the IP address of an Ingress router:
+1st ip address of a router, you go out of.
 c:\tracert www.x-art.com
 
 3.1.e Administrative distance: BUMBAY na Interviewer:
