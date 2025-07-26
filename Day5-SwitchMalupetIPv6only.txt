@@ -221,7 +221,7 @@ Top 5 brands: PANG MAYAMAN
 1.Cisco = 75% =google,aws,azure,etc,
         Cisco Invented the FirstEthernetSW
         Cisco Patent Expires.
-2.Dell
+2.Dell/ExtremeNetwork/Arista/AlliedTelesys
 3.HP procurve
 4.Juniper/Fortinet
 5.Huawei      =
@@ -330,11 +330,14 @@ AlternatePort/AP = blk port of nonRootPorts
 BackupPort = yuck yuck, suck urself. enter urself, self-service
 
 how becomes RootPort = kanangKamay
-Cost >> Priority >> Number
+Cost >> Priority >> Number, lowest cost WINS!
+10G cost - 1
+1gig cost = 4
+faE cost = 19
 
 who is darna: 802.1d
 kabit PC = 30s
-putol trunk, recover =30s, acceptable? BANK,HOst,Pol,Mil
+putol trunk, recover =30s, acceptable? BANK,PolHOst,,Mil
 
 TASK10: Rapid Spanning-tree Protocol: 802.1w
 TAAs/BABA: tikam si wonderWoman/bilis labasan: taas,baba,d1,d2,a1,a2:
