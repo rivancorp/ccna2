@@ -41,10 +41,10 @@ BGP = Path Attributes
 3.2.c Routing protocol metric
 
 3.3 Configure and verify IPv4 and IPv6 static routing
-3.3.a Default route
-3.3.b Network route
-3.3.c Host route
-3.3.d Floating static
+3.3.a Default route:  S* [1/0] 0.0.0.0/0 via ________
+3.3.b Network route: D[90/15000] or O[110/20] or B[20/120] or S[1/0]
+3.3.c Host route:  S [1/0] 192.168.1.35/32 via ________
+3.3.d Floating static: - to be explained -
 
 3.4 Configure and verify single area OSPFv2
 3.4.a Neighbor adjacencies
@@ -464,3 +464,4 @@ Howt to configure Site 2 site VPN JP to PH:
 https://
 
 TASK6: FUndamentals of Cisco network Security:
+
