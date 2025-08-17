@@ -175,5 +175,19 @@ show crypto pki trustpoints WLC-TP status
 show wireless management trustpoint
 show ip http server secure status
 
+```
+
+```bash
+
+In this Video I will show you how to be resolved Virtualized Intel VT-X/EPT is not supported on this platform:
+1-systeminfo
+2-bcdedit /set hypervisorlaunchtype off
+3-Disable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-All
+4-Disable-WindowsOptionalFeature -Online -FeatureName HypervisorPlatform
+5-Local Group Policy Computer Configuration Administrative Templates System Device Guard Turn On Virtualization Security Disabled
+6-Windows Security Device Security Core Isolation Core Isolation Details Memory Integrity Off
+7-Turn Windows Features on or off
+Uncheck Hyper-V
+Uncheck Windows Hypervisor Platform
 
 ```
