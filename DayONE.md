@@ -84,3 +84,96 @@ int gi 0/1
 1.13.c Frame flooding
 1.13.d MAC address table
 </details>
+
+
+```bash
+WLC#show wireless management trustpoint
+Trustpoint Name  : WLC_WLC_TP
+Certificate Info : Available
+Certificate Type : SSC
+Certificate Hash : 67e011a0b24a22f3872d900f116d548c6393a1b8
+Private key Info : Available
+FIPS suitability : Not Applicable
+
+conf t
+! Create RSA key
+crypto key generate rsa label WLC-KEY modulus 2048
+!
+! Define trustpoint
+crypto pki trustpoint WLC-TP
+ enrollment selfsigned
+ subject-name CN=wlc9800.mylab.local
+ rsakeypair WLC-KEY
+!
+! Enroll self-signed certificate
+crypto pki enroll WLC-TP
+!
+end
+write memory
+
+!bindIT:
+conf t
+ip http secure-trustpoint WLC-TP
+wireless management trustpoint WLC-TP
+end
+
+!
+
+```
+
+```bash
+enable
+configure terminal
+!
+! ---------- [Time & DNS – helps avoid cert errors] ----------
+clock timezone PHT 8 0
+ntp server 0.pool.ntp.org
+ntp server 1.pool.ntp.org
+ip domain-name lab.local                 ! 🔧 your domain
+!
+! ---------- [Clean up old bindings – safe to run] ----------
+no ip http secure-trustpoint
+no wireless management trustpoint
+!
+! ---------- [Enable HTTPS] ----------
+no ip http server
+ip http secure-server
+!
+! ---------- [Generate RSA keypair] ----------
+crypto key generate rsa label WLC-KEY modulus 2048
+!
+! ---------- [Create self-signed trustpoint] ----------
+crypto pki trustpoint WLC-TP
+ enrollment selfsigned
+ subject-name CN=wlc9800.lab.local       ! 🔧 set FQDN
+ fqdn wlc9800.lab.local                  ! 🔧 set FQDN
+ rsakeypair WLC-KEY
+ usage ssl-server
+ revocation-check none
+ exit
+!
+! ---------- [Enroll (issues the self-signed cert)] ----------
+crypto pki enroll WLC-TP
+!
+! ---------- [Bind to wireless mgmt & HTTPS] ----------
+wireless management trustpoint WLC-TP
+ip http secure-trustpoint WLC-TP
+end
+!
+write memory
+!
+! ---------- [Quick refresh of HTTPS] ----------
+configure terminal
+no ip http secure-server
+ip http secure-server
+end
+!
+! ---------- [Verification – run these show cmds] ----------
+show clock
+show crypto pki trustpoints
+show crypto pki trustpoints WLC-TP status
+show wireless management trustpoint
+show ip http server secure status
+
+
+```
