@@ -195,5 +195,101 @@ dism /online /disable-feature /featurename:Microsoft-Hyper-V-All
 dism /online /disable-feature /featurename:VirtualMachinePlatform
 dism /online /disable-feature /featurename:WindowsHypervisorPlatform
 
+```
+
+```
+bash
+enable
+configure terminal
+!
+! 0) Prereqs: valid clock + HTTP(S) for enrollment
+!    (If you have NTP, ensure time is already correct.)
+clock calendar-valid
+ip http server
+ip http secure-server
+end
+!
+! 1) Build a tiny local CA on the WLC (IOS PKI server)
+!
+configure terminal
+crypto key generate rsa general-keys modulus 2048 label WLC_CA
+crypto pki server WLC_CA
+ issuer-name O=YOUR-ORG, CN=CA-vWLC
+ grant auto
+ hash sha256
+ lifetime ca-certificate 3650
+ lifetime certificate 1825
+ database archive pkcs12 password 0 STRONG_CA_ARCHIVE_PASSWORD
+ no shutdown
+end
+!
+! 2) Create a device trustpoint + keys for the controller’s SSC
+!
+configure terminal
+crypto key generate rsa exportable general-keys modulus 2048 label EWLC-TP1
+crypto pki trustpoint EWLC-TP1
+ rsakeypair EWLC-TP1
+ subject-name O=YOUR-ORG, CN=DEVICE-vWLC
+ revocation-check none
+ hash sha256
+ serial-number
+ eku request server-auth client-auth
+ password 0 STRONG_TP_ENROLL_PASSWORD
+ ! Use the controller's management IP for the CA URL (uses the local CA you started above)
+ enrollment url http://WLC-MGMT-IP:80
+end
+!
+! 3) Fetch the CA cert and enroll the controller cert
+!
+crypto pki authenticate EWLC-TP1
+! (type 'yes' to accept the CA fingerprint)
+crypto pki enroll EWLC-TP1
+! At prompts: "Include an IP address in the subject name? no"
+!             "Request certificate from CA? yes"
+end
+!
+! 4) Tag the SSC to the Wireless Management Trustpoint (WMI)
+!
+configure terminal
+wireless management trustpoint EWLC-TP1
+end
+!
+! 5) (9800-CL specific) Let MIC APs join a controller using SSC
+!    a) (Optional but handy for labs/legacy APs) Allow MIC from Cisco Mfg CA and accept expired MICs
+!
+configure terminal
+crypto pki certificate map MIC-MAP 1
+ issuer-name co Cisco Manufacturing CA
+exit
+crypto pki trustpool policy
+ match certificate MIC-MAP allow expired-certificate
+exit
+!
+!    b) Authorize MIC APs against this SSC chain (vWLC requires this)
+!
+ap auth-list ap-cert-policy allow-mic-ap trustpoint EWLC-TP1
+ap auth-list ap-cert-policy allow-mic-ap
+!
+!    c) Add allowed APs (repeat per AP; or bulk via GUI .csv)
+!       Use EITHER MAC or serial number per line
+ap auth-list ap-cert-policy mac-address AAAA.BBBB.CCCC policy-type mic
+! or:
+! ap auth-list ap-cert-policy serial-number FGLXXXXXXXX policy-type mic
+end
+!
+! 6) (Optional) Stop the local CA now that enrollment is done
+!
+configure terminal
+crypto pki server WLC_CA
+ shutdown
+end
+!
+! 7) Verify
+!
+show crypto pki server
+show crypto pki trustpoint EWLC-TP1 status
+show wireless management trustpoint
+show ap auth-list ap-cert-policy
+
 
 ```
