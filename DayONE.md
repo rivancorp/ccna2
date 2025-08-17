@@ -190,4 +190,10 @@ In this Video I will show you how to be resolved Virtualized Intel VT-X/EPT is n
 Uncheck Hyper-V
 Uncheck Windows Hypervisor Platform
 
+bcdedit /set hypervisorlaunchtype off
+dism /online /disable-feature /featurename:Microsoft-Hyper-V-All
+dism /online /disable-feature /featurename:VirtualMachinePlatform
+dism /online /disable-feature /featurename:WindowsHypervisorPlatform
+
+
 ```
