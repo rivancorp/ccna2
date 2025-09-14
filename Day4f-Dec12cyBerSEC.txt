@@ -31,6 +31,7 @@ ping www.ngcpM.ph
 
 youporn.com
 pornhub.com 66.254.114.41
+            161.49.21.
 redtube.com 66.254.114.23
 faketaxi.com 66.254.114.234
 bangbros.com
@@ -74,9 +75,10 @@ do sh ip int brief
 ALL THE PORN SITES THE WORLD ARE OWNED BY 5 COMPANIES:
 
 config t
-NO ip access-list standard NOPORNFAP
-ip access-list standard NOPORNFAP
+NO ip access-list standard NOPORN
+ip access-list standard NOPORN
 DENY 66.254.0.0 0.0.255.255
+deny 161.49.0.0 0.0.255.255
 DENY 104.21.0.0 0.0.255.255
 DENY 68.235.0.0 0.0.255.255
 DENY 104.17.0.0 0.0.255.255
@@ -85,12 +87,12 @@ DENY 208.77.0.0 0.0.255.255
 DENY 172.67.0.0 0.0.255.255
 Permit Any
 Int Gi 1
- ip access-group NOPORNFAP in
+ ip access-group NOPORN in
 end
 Goberno: allow all Porn, for freedom of expression!
 config t
 Int gi 1
- NO ip access-group NOPORNFAP in
+ NO ip access-group NOPORN in
 end
 
 Alternative: use standard ACL 1-99
@@ -279,6 +281,19 @@ service udp-small-servers
 ip dns server
 ip http server
 ip http secure-server
+telephony-service
+max-ephone 2
+max-dn 4
+ip source-address 192.168.102.11 port 2000
+voice service voip
+ allow-connections sip to sip
+ sip
+   registrar server expires max 600 min 60
+ voice register global
+  mode cme
+  source-address 192.168.102.11 port 5060
+  max-dn 12
+  max-pool 12
 !Make Ping EASY
 ip host www.web310.com 192.168.103.10
 ip host www.web311.com 192.168.103.11
@@ -307,31 +322,60 @@ Top 5 UTM: 1.FortinetFortigate: syet
 
 Firewall Profile no.1: use ExtendedACL vs NamedExtendedAcl:
 ex.1: you are the Blue Team/SOC guys for pogo sites:
-www.web310.com open only http, https, ping
-www.web311.com open only dns, https, ssh       ==> 6 lines:
+ebet10.com open only http, https, ping:  80, 443, icmp
+ebet11.com open only dns, https, ssh     53, 443, 22 ==> 6 lines:
   GOLDEN  FIREWALL FORMULA:  paloalto,fortinet,cisco,checkpoint.
    protocol         hacker    victim       port
 tcp,udp,icmp,IP     Any      web310/11
 Config t
+ip host ebet10.com 192.168.103.10
+ip host ebet11.com 192.168.103.11
 service timestamps log datetime
 service timestamps debug datetime
 logging 10.m.1.10
 logging trap 5
-NO IP access-list Extended FWP1
-IP access-list Extended FWP1
- Permit tcp Any host www.web310.com eq 80 log
- Permit tcp Any host www.web310.com eq 443 log
- Permit icmp Any host www.web310.com log
- Permit tcp Any host www.web311.com eq 53 log
- Permit tcp Any host www.web311.com eq 443 log
- Permit tcp Any host www.web311.com eq 22 log
+!!How to Sumbong to SPLUNK LOGS
+NO IP access-list Extended NGFW1
+IP access-list Extended NGFW1
+ Permit tcp Any host ebet10.com eq 80 log
+ Permit tcp Any host ebet10.com eq 443 log
+ Permit icmp Any host ebet10.com log
+ Permit tcp Any host ebet11.com eq 53 log
+ Permit tcp Any host ebet11.com eq 443 log
+ Permit tcp Any host ebet11.com eq 22 log
  Int Gi 3
-  ip access-group FWP1 in
+  ip access-group NGFW1 in
 REMOVE FIREWALL:
 CONfig t
  Int Gi 3
-  NO ip access-group FWP1 in
+  NO ip access-group NGFW1 in
 end
+
+ex.1a: you are the Blue Team/SOC guys for pogo sites:
+ebet10.com phoneBettingSite: 1720,2000,5060,5061
+ebet11.com webappBettingSite: 80,443,22,ping
+config t
+NO IP access-list Extended NGFW2
+IP access-list Extended NGFW2
+ Permit tcp Any host ebet10.com eq 1720 log
+ Permit tcp Any host ebet10.com eq 2000 log
+ Permit tcp Any host ebet10.com eq 5060 log
+ Permit tcp Any host ebet10.com eq 5061 log
+ Permit tcp Any host ebet11.com eq  80 log
+ Permit tcp Any host ebet11.com eq  443 log
+ Permit tcp Any host ebet11.com eq 22 log
+ Permit icmp Any host ebet11.com log
+ Int Gi 3
+  ip access-group NGFW2 in
+end
+
+ex.1b: you are the Blue Team/SOC guys for pogo sites:
+ebet10.com phoneBettingSite: 22,53,443,2000,ping
+ebet11.com webappBettingSite: 80,1720,5060,5061  
+config t
+NO IP access-list Extended NGFW3
+IP access-list Extended NGFW3
+
 
 TAKASSSSSSSSG:  control shift 6 bitaw X
 
@@ -491,12 +535,12 @@ end
 show ntp associations
 GIVE IP ADDRESS TO LINUX BLDGONE AND BLDGTWO:
 sudo su
-bldg1:
+CONF-1/bldg1:
 sudo su
 ifconfig eth0 192.168.103.21 netmask 255.255.255.0 up
 route add default gw 192.168.103.11
 ping 192.168.103.11
-bldg2:
+Confi-2/bldg2:
 sudo su
 ifconfig eth0 192.168.103.22 netmask 255.255.255.0 up
 route add default gw 192.168.103.11
@@ -568,11 +612,10 @@ Int Gi 3
  ip nat Inside
 Int gi 1
  ip nat Outside
-IP Nat inside source static tcp 192.168.103.21 80 208.8.8.101 8080
-IP Nat inside source static tcp 192.168.103.21 443 208.8.8.101 8443
-IP Nat inside source static tcp 192.168.103.21 22 208.8.8.101 8069
-IP Nat inside source static tcp 192.168.103.22 80 208.8.8.102 8080
-IP Nat inside source static tcp 192.168.103.22 443 208.8.8.102 8443
+IP Nat inside source static tcp 192.168.103.21 80 208.8.8.47 80
+IP Nat inside source static tcp 192.168.103.21 443 208.8.8.47 443
+IP Nat inside source static tcp 192.168.103.22 80 208.8.8.47 8080
+IP Nat inside source static tcp 192.168.103.22 443 208.8.8.47 8443
 IP nat inside source list 8 int gi 1 Overload
 end
 show ip nat translation
@@ -1038,6 +1081,7 @@ https:///restconf/data/Cisco-IOS-XE-native:native/interface/Loopback
 
 HomeWork for the Hardest Day in CCNA: 
 CSr, linuxdocker, pythondocker, Postman: RestApi.
+
 
 
 
