@@ -76,7 +76,7 @@ Trunk Ports: switch to switch:
 TAAS/BABA:
 config t
 Int Range fa0/10-12
- shutdown
+ ! shutdown
  no shutdown
  switchport trunk Encap Dot1Q
  switchport mode trunk
@@ -133,9 +133,9 @@ vlan 10
 vlan 50
    name IPCCTVLAN
 vlan 69
-   name UPPERMGMT
+   name DELETEME
 vlan 70
-    name ACCOUNTING
+    name SELLME
 vlan 71
     name HR
 vlan 100
@@ -172,10 +172,10 @@ config t
 ip routing
 ip dhcp pool CAMERA6
 host 10.~~.50.6 255.255.255.0
-client-identifier abcd.1234.cafb
+client-identifier 001a.0704.7f5b
 ip dhcp pool CAMERA8
 host 10.~~.50.8 255.255.255.0
-client-identifier abcd.1234.cafb
+client-identifier 001a.0709.c258 
 end
 show ip dhcp binding
 
@@ -288,10 +288,10 @@ configure terminal
  destination-pattern 11..
  session target ipv4:10.11.100.8
  codec g711ULAW
-  dial-peer voice 12 Voip
-  destination-pattern 12..
-  session target ipv4:10.12.100.8
-  codec g711ULAW
+  !dial-peer voice 12 Voip
+  !destination-pattern 12..
+  !session target ipv4:10.12.100.8
+  !codec g711ULAW
 dial-peer voice 21 Voip
  destination-pattern 21..
  session target ipv4:10.21.100.8
@@ -347,6 +347,14 @@ dial-peer voice 81 Voip
 dial-peer voice 82 Voip
  destination-pattern 82..
  session target ipv4:10.82.100.8
+ codec g711ULAW
+dial-peer voice 91 Voip
+ destination-pattern 91..
+ session target ipv4:10.91.100.8
+ codec g711ULAW
+dial-peer voice 92 Voip
+ destination-pattern 92..
+ session target ipv4:10.92.100.8
  codec g711ULAW
 
 TASK3***TASK3***TASK3***
@@ -411,6 +419,26 @@ router-id 10.~~.100.8
 network 10.~~.100.0  0.0.0.255  area 0
 end
 
+EXAM READY DAY1: NAT, NTP, DHCP, and SSH
+NAT: NETWORK ADDRESS TRANSLATION: BIGAY INTERNET SA MUNDO NI CISCO.
+config t
+ip route 0.0.0.0 0.0.0.0 200.0.0.1
+access-list 1 permit Any
+int gigabit 0/0/1
+ip nat outside
+int gigabit 0/0/0
+ip nat inside
+ip nat inside source list 1 interface gi 0/0/1 Overload
+NTP: NETWORK TIME PROTOCOL
+DHCP: DI AKO BOBO
+SSH: SECURE SHELL: CIA: confidentility,Integrity,Availablity
+CoreBABA:
+config t
+username admin privilege 15 secret pass
+ip domain-name rivanit.com
+crypto key generate rsa
+!i type mo 1024 WAG 512 na default kc di ako bobo
+ip ssh version 2
 
  !!!STATIC ROUTING FOR MININUM WAGERS: 645php/day
  !!! EDGE route NOT dikit to ClassMate:
@@ -643,3 +671,4 @@ exit
           
 sip-ua
 sip-server ipv4:192.168.k.1
+
