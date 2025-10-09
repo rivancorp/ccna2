@@ -135,16 +135,19 @@ Int Gi 1
  ip access-group NOISKUL in
 end
 YOUR COMPANY IS HAS VERY LOW INTERNET SPEED, BEC OF TORRENTS:
-www.thepiratebay.org   162.159.   104.21
-www.limetorrents.com    172.67.   84.32   104.21.
-www.freeanimeonline.com   76.223.  13.248
-www.torlock2.com   104.21.
-www.hentaisites.com 104.21.   
-www.iptorrents.com  104.26.   95.211.
+www.thepiratebay.org   162.159.0.0     104.21.0.0
+www.limetorrents.com    172.67.0.0.   84.32.0.0
+www.freeanimeonline.com   76.223.0.0.  13.248.0.0.
+www.torlock2.com   104.21.0.0
+www.hentaisites.com 104.21.0.0   
+www.iptorrents.com  104.26.0.0.   95.211.0.0
 
 config t
 NO ip access-list standard NOTORS
 ip access-list standard NOTORS
+DENY   __.__.__.__   0.0.255.255
+DENY   __.__.__.__   0.0.255.255
+DENY   __.__.__.__   0.0.255.255
 DENY   __.__.__.__   0.0.255.255
 DENY   __.__.__.__   0.0.255.255
 DENY   __.__.__.__   0.0.255.255
@@ -284,19 +287,19 @@ ip http secure-server
 telephony-service
 max-ephone 2
 max-dn 4
-ip source-address 192.168.102.11 port 2000
+ip source-address 192.168.103.11 port 2000
 voice service voip
  allow-connections sip to sip
  sip
    registrar server expires max 600 min 60
  voice register global
   mode cme
-  source-address 192.168.102.11 port 5060
+  source-address 192.168.103.11 port 5060
   max-dn 12
   max-pool 12
 !Make Ping EASY
-ip host www.web310.com 192.168.103.10
-ip host www.web311.com 192.168.103.11
+ip host bet10.com 192.168.103.10
+ip host bet11.com 192.168.103.11
 ip host pc 10.m.1.10
 ip host cm 10.m.100.8
 ip host cm2 10.m.100.9
@@ -1081,6 +1084,7 @@ https:///restconf/data/Cisco-IOS-XE-native:native/interface/Loopback
 
 HomeWork for the Hardest Day in CCNA: 
 CSr, linuxdocker, pythondocker, Postman: RestApi.
+
 
 
 
