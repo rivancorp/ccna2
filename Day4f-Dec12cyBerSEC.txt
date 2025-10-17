@@ -1,3 +1,22 @@
+10:22
+Arthur
+!@CSR1000v
+conf t
+ username admin privilege 15 secret pass
+ aaa new-model
+ radius server WINRAD
+  address ipv4 10.m.1.8 auth-port 1812 acct-port 1813
+  key keykeymo
+  exit
+ aaa group server radius RADGROUP
+  server name WINRAD
+  exit
+ aaa authentication login default group RADGROUP local
+ aaa authorization exec default group RADGROUP local
+ line vty 0 14
+  login authentication default
+ end
+
 DNS IPv4: verizon.com.ph
 DNS IPv6: epldt.com.ph
 
@@ -1084,6 +1103,7 @@ https:///restconf/data/Cisco-IOS-XE-native:native/interface/Loopback
 
 HomeWork for the Hardest Day in CCNA: 
 CSr, linuxdocker, pythondocker, Postman: RestApi.
+
 
 
 
