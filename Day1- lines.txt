@@ -1,0 +1,24 @@
+On Day1 script:
+
+Paste on CoreTAAS
+- Lines: 3-33      IP Add & SVI
+
+Paste on CoreBABA
+- Lines 37-71      IP Add & SVI
+- Lines 100 - 126  DHCP
+- Lines 130 - 168  VLANs & Switchport
+- Lines 171 - 180  MAC Reservation
+- Lines 399 - 405  OSPF Routing
+
+Paste on CUCM
+- Lines 187 - 204 IP Add
+- Lines 207 - 220 Analog Phones
+- Lines 223 - 262 Telephony
+- Lines 265 - 276 Video Calls
+- Lines 279 - 283 Incoming Calls
+- Lines 286 - 350 Outgoing Calls
+- Lines 408 - 412 OSPF Routing
+
+Paste on EDGE
+- Lines 356 - 381 IP add
+- Lines 388 - 396 OSPF Routing
