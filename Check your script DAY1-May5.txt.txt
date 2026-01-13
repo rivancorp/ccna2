@@ -1,0 +1,18 @@
+Check your script DAY1-May5.txt
+
+CoreTAAS                  EDGE
+ - Lines 3 - 33           - Lines 364 - 389
+                          - OSPF 
+CoreBABA                      EDGE Lines 396 - 404
+ - SVI Lines 37 - 71          CUCM Lines 416 - 420
+ - DHCP Lines 100 - 126       BABA Lines 407 - 413
+ - VLANs Lines 130 - 168
+ - MAC Lines 171 - 180
+
+CUCM
+ - Lines 187 - 204
+ - Analog Lines 207 - 220
+ - ePhones Lines 223 - 262
+ - Video Lines 265 - 276
+ - Incoming/Outgoing 279 - 358
+ 
