@@ -2,6 +2,9 @@ On Day1 script:
 
 Paste on CoreTAAS
 - Lines: 3-33      IP Add & SVI
+saPCmo: ping 10.m.1.2 
+securecrt, kidlat: telnet 10.m.1.2
+lipat console sa baba:
 
 Paste on CoreBABA
 - Lines 37-71      IP Add & SVI
@@ -9,6 +12,9 @@ Paste on CoreBABA
 - Lines 130 - 168  VLANs & Switchport
 - Lines 171 - 180  MAC Reservation
 - Lines 399 - 405  OSPF Routing
+saPCmo: ping 10.m.1.4 
+securecrt, kidlat: telnet 10.m.1.4
+lipat console sa CUCM:
 
 Paste on CUCM
 - Lines 187 - 204 IP Add
