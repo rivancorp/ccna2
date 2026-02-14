@@ -32,3 +32,23 @@ lipat console sa EDGE:
 Paste on EDGE
 - Lines 356 - 381 IP add
 - Lines 388 - 396 OSPF Routing
+
+
+!@CSR1000v
+conf t
+ username admin privilege 15 secret pass
+ aaa new-model
+ radius server WINRAD
+  address ipv4 10.m.1.8 auth-port 1812 acct-port 1813
+  key keykeymo
+  exit
+ aaa group server radius RADGROUP
+  server name WINRAD
+  exit
+ aaa authentication login default group RADGROUP local
+ aaa authorization exec default group RADGROUP local
+ line vty 0 14
+  login authentication default
+ end
+Arthur
+ip http authentication aaa
