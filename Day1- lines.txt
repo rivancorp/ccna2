@@ -24,6 +24,10 @@ Paste on CUCM
 - Lines 279 - 283 Incoming Calls
 - Lines 286 - 350 Outgoing Calls
 - Lines 408 - 412 OSPF Routing
+saPCmo: ping 10.m.100.4 
+saPCmo: ping 10.m.100.8
+securecrt, kidlat: telnet 10.m.100.8
+lipat console sa EDGE:
 
 Paste on EDGE
 - Lines 356 - 381 IP add
