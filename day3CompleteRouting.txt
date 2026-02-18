@@ -2,7 +2,7 @@ Day3 Network Engineer: Job Interview Questions for L1/L2 NOC-MSP postions.
 3.1 Interpret the components of routing table:
 a routing is database/fib: forward information base that is used by routing devices, path to take.
 to go to remote networks:
-linux: netstat -rn
+linux: netstat -rn  or  ip route
 windows: route print
 cisco: show ip route
 
@@ -173,6 +173,21 @@ config T
 ip route 0.0.0.0  0.0.0.0 10.2.1.2 1
 ip route 0.0.0.0  0.0.0.0 10.2.1.1 2
 do sh ip route static
+
+KUNG GUSTO 100K TO 200K, MATUTO MAG PACKET ANALYSIS USING WIRESHARK.
+@R4:
+config t
+router OSPF 1
+router-id 4.4.4.4
+exit
+Int E3/3
+no shutdown
+ip add 208.8.8.100 255.255.255.0
+ip ospf 1 area 0
+exit
+router eigrp 100
+network 208.8.8.0 0.0.0.255
+end
 
 D1:
 config t
@@ -464,4 +479,5 @@ Howt to configure Site 2 site VPN JP to PH:
 https://
 
 TASK6: FUndamentals of Cisco network Security:
+
 
