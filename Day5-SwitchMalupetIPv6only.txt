@@ -265,7 +265,7 @@ indicator no.2: if you plug a device=30s
 indicator no.3: Kislap every 1/2 seconds
 
 TASK6: HOW TO GET FIRED IMMEDIATELY!
-SIRAIN NG TODO SI @taas at @baba:
+SIRAIN NG TODO SI PASTE MUNA KAY BABA, TAPOS KAY TAAS!
 config t
 NO spanning-tree vlan 1-999
 end
@@ -729,6 +729,7 @@ how to get certified:
 2. Lab: NAT and DHCP:
 
 3. ask sa CHAT: "latest reivewer"
+
 
 
 
