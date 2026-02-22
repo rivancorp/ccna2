@@ -1,0 +1,575 @@
+
+Secret: pass
+
+---
+
+## DISCOVERY PROTOCOL
+
+### On Prem vs MSP
+Identify port connections between switches using the Cisco Proprietary Discovery Protocol
+
+!@Switches
+show cdp neighbor
+
+### SECURITY Best Practice
+Disable CDP on Access Switches
+Enable LLDP on Access Switches but only transmit LLDP traffic to D1 & D2
+
+--
+
+Disable CDP on Distribution Switches towards access switches
+Enable LLDP on D1 & D2
+But only allow recieving traffic from A1,A2,A3
+Transmit to C1 & C2 but do not recieve
+
+--
+
+On C1 & C2, Enable CDP, and LLDP, do not transmit to D1 & D2 or E1
+
+
+
+
+---
+
+## ACCESS vs TRUNK
+
+### TAGGED vs UNTAGGED Traffic
+Create VLAN 120, named UNTAGGED.
+
+!@Switches
+conf t
+ vlan 120
+  name UNTAGGED
+  end
+  
+
+Configure Open Standard Protocol for Trunking between switches with the following settings.
+- Allow all VLANs. 
+- Specify DATA VLAN as untagged.
+- Set a description on ports to identify connection
+
+!@C1, C2
+conf t
+ int range e0/1-3
+  description Connection to C2
+ int range e1/1-2
+  description Connection to D1
+ int range e2/1-2
+  description Connection to D2
+  exit
+ !
+ int range e0/1-3,e1/1-2,e2/1-2
+  switchport trunk encaps dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan all
+  switchport trunk native vlan 120
+  end
+
+!@D1, D2
+conf t
+ int range e1/0,e1/3
+  description Connection to C1
+ int range e2/0,e2/3
+  description Connection to C2
+ int range e1/1-2
+  description Connection to A1
+ int range e2/1-2
+  description Connection to A2
+ int range e3/1-2
+  description Connection to A3
+  exit
+ !
+ int range e1/0-3,e2/0-3,e3/1-2
+  switchport trunk encaps dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan all
+  switchport trunk native vlan 120
+  end
+show int trunk
+show int desc
+
+!@A1,A2,A3
+conf t
+ int range e1/1-2
+  description Connection to D1
+ int range e2/1-2
+  description Connection to D2
+  exit
+ !
+ int range e1/1-2,e2/1-2
+  switchport trunk encaps dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan all
+  switchport trunk native vlan 120
+  end
+show int trunk
+show int desc
+
+
+---
+
+### IP ADDRESSING
+## STATIC
+Assign IP Addresses on PCs based on their specified VLAN.
+- Make sure PCs can communicate with C1 & C2 (Gateway)
+
+!@P1
+conf t
+ int e0/0
+  no shut
+  ip add 10.1.10.101 255.255.255.224
+  end
+
+!@P2
+conf t
+ int e0/0
+  no shut
+  ip add 192.168.30.113 255.255.255.248
+  end
+
+!@P3
+conf t
+ int e0/0
+  no shut
+  ip add 10.1.20.60 255.255.255.240
+  end
+
+!@P4
+conf t
+ int e0/0
+  ip add 10.1.10.102 255.255.255.224
+  no shut
+  end
+
+
+### Configure VLAN DATA with an IP address of 
+208.8.8.101 on C1
+208.8.8.102 on C2
+
+Assign RSTVM to VLAN DATA only
+
+!@A3
+conf t
+ int e3/3
+  no shut
+  switchport mode access
+  switchport access vlan 120
+  end
+
+
+Enable Wireshark to capture traffic from VMNet8
+
+---
+
+### DHCP
+Configure DHCP Pool for SALES:
+- Use the IP address 192.168.50.0/24
+- Reserve the First 100 IPs
+- Apply the First Valid IP on C1, last Valid on C2
+- Load balance between C1 & C2 
+  - C1 - 1   - 100 IPs
+  - C2 - 200 - 253 IPs
+- Set the Domain name to SALES.COM
+- The default Gateway must be C1 or C2 per pool
+
+- Finally, configure P5 as a dhcp client
+  
+
+!@C1
+conf t
+ int vlan 50
+  no shut
+  ip add 192.168.50.1 255.255.255.0
+  exit
+ ip dhcp excluded-address 192.168.50.1 192.168.50.100
+ ip dhcp pool SALES.COM
+  network 192.168.50.0 255.255.255.0
+  default-router 192.168.50.1
+  domain-name SALES.COM
+  end
+
+!@C2
+conf t
+ int vlan 50
+  no shut
+  ip add 192.168.50.254 255.255.255.0
+  exit
+ ip dhcp excluded-address 192.168.50.1 192.168.50.200
+ ip dhcp pool SALES.COM
+  network 192.168.50.0 255.255.255.0
+  default-router 192.168.50.254
+  domain-name SALES.COM
+  end
+
+
+!@P5
+conf t
+ int e0/0
+  no shut
+  ip add dhcp
+  end
+
+
+DHCP States:
+1.
+2.
+3.
+4.
+
+What type of data traffic is each state? (Unicast, Broadcast, Multicast)
+Base on Wireshark.
+
+
+---
+
+
+## VLAN PROPAGATION
+### Configure VTP Domain CCNP on all Switches
+- VTP Version 2
+- VTP mode server (C1, C2) client (D1, D2, A1, A2, A3, A4)
+- VTP password C1sc0123
+
+!@C1,C2
+conf t
+ vtp version 2
+ vtp mode server
+ vtp domain CCNP
+ vtp password C1sc0123
+ end
+
+!@D1,D2,A1,A2,A3,A4
+conf t
+ vtp version 2
+ vtp mode client
+ vtp domain CCNP
+ vtp password C1sc0123
+ end
+
+### Verify by creating VLANs 12 (NETWORK) & 13 (SECURITY)
+
+!@C1 or C2
+conf t
+ vlan 12
+  name NOC
+  exit
+ vlan 13
+  name SOC
+  exit
+  end
+
+!@A3
+show vlan brief
+
+
+### WARNING, Dangers of VTP Revision Number
+
+!@A4
+conf t
+ vtp mode server
+ vlan 2
+  name -T
+ vlan 3
+  name E
+ vlan 4
+  name S
+ vlan 5
+  name T
+ vlan 6
+  name I
+ vlan 7
+  name N
+ vlan 8
+  name G-
+  end
+show vtp status
+
+
+Add A4 to the network
+
+!@A3,A4
+conf t
+ int e0/3
+  no shut
+  end
+  
+Check C1 & C2 for VLANs
+
+!@C1,C2
+show vlan brief
+
+
+Set A4's Revision Number to 0
+
+!@A4
+conf t
+ vtp mode transparent
+ end
+show vtp status
+
+
+### Fix the VLANs by configuring VTP Version 3
+
+!@C1,C2
+conf t
+ vtp version 3
+ vtp mode server
+ end
+vtp primary
+
+!@A4
+conf t
+ no vlan 2
+ no vlan 3
+ no vlan 4
+ no vlan 5
+ no vlan 6
+ no vlan 7
+ no vlan 8
+ end
+
+vs
+
+!@C1
+conf t
+ no vlan 2
+ no vlan 3
+ no vlan 4
+ no vlan 5
+ no vlan 6
+ no vlan 7
+ no vlan 8
+ end
+
+!@D1,D2,A1,A2,A3,A4
+conf t
+ vtp version 3
+ end
+show vlan brief
+
+
+Finally, Configure the VLANs
+
+!@C1 or C2
+conf t
+ vlan 10
+ name ADMIN
+!
+vlan 20
+ name FINANCE
+!
+vlan 30
+ name HR
+!
+vlan 40
+ name MARKETING
+!
+vlan 41
+ name Public Relations
+!
+vlan 42
+ name SocMed
+!
+vlan 50
+ name SALES
+!
+vlan 60
+ name IT
+!
+vlan 61
+ name Systems
+!
+vlan 62
+ name Network
+!
+vlan 100
+ name ServerFarm
+!
+vlan 120
+ name DATA
+!
+vlan 11
+ name NOC
+!
+vlan 12
+ name SOC
+ end
+ 
+
+---
+
+
+## SPANNING TREE PROTOCOL
+### 802.1D
+Configure C1 as Primary & C2 as secondary
+
+!@C1
+conf t
+ spanning-tree mode pvst
+ spanning-tree vlan 120 root primary
+ end
+show spanning-tree vlan 120
+ 
+ 
+!@C2
+conf t
+ spanning-tree mode pvst
+ spanning-tree vlan 120 root secondary
+ end
+show spanning-tree vlan 120
+
+
+$$$$$$$$$$$$$$$4
+$$$$$$$$$$$$$
+
+### 802.1W
+Configure Rapid PVST on all switches, and make sure ports connected to end devices are configured for Portfast EDGE
+- Set the metric cost
+
+
+
+### 802.1S
+Configure MST to load balance STP Management between C1 & C2
+
+
+
+---
+
+
+## ETHERCHANNEL
+### Configure Etherchannel
+
+C1-C2 = Po102
+C1-D1 = Po11
+C1-D2 = Po12
+C2-D1 = Po21
+C2-D2 = Po22
+
+D1-A1 = Po111
+D1-A2 = Po112
+D1-A3 = Po113
+
+D2-A1 = Po221
+D2-A2 = Po222
+D2-A3 = Po223
+
+!@C1
+conf t
+ int range e0/1-3
+  channel-group 102 mode active
+  channel-protocol lacp
+  exit
+ int range e1/1-2
+  channel-group 11 mode active
+  channel-protocol lacp
+  exit
+ int range e2/1-2
+  channel-group 12 mode active
+  channel-protocol lacp
+  exit
+
+!@C2
+conf t
+ int range e0/1-3
+  channel-group 102 mode active
+  channel-protocol lacp
+  exit
+ int range e1/1-2
+  channel-group 21 mode active
+  channel-protocol lacp
+  exit
+ int range e2/1-2
+  channel-group 22 mode active
+  channel-protocol lacp
+  exit
+  
+!@D1
+conf t
+ int range e1/0,e1/3
+  channel-group 11 mode passive
+  channel-protocol lacp
+ int range e2/0,e2/3
+  channel-group 21 mode passive
+  channel-protocol lacp
+ int range e1/1-2
+  channel-group 111 mode active
+  channel-protocol lacp
+ int range e2/1-2
+  channel-group 112 mode active
+  channel-protocol lacp
+ int range e3/1-2
+  channel-group 113 mode active
+  channel-protocol lacp
+  end
+
+!@D2
+conf t
+ int range e1/0,e1/3
+  channel-group 12 mode passive
+  channel-protocol lacp
+ int range e2/0,e2/3
+  channel-group 22 mode passive
+  channel-protocol lacp
+ int range e1/1-2
+  channel-group 221 mode active
+  channel-protocol lacp
+ int range e2/1-2
+  channel-group 222 mode active
+  channel-protocol lacp
+ int range e3/1-2
+  channel-group 223 mode active
+  channel-protocol lacp
+  end
+
+!@A1
+conf t
+ int range e1/1-2
+  channel-group 111 mode active
+  channel-protocol lacp
+ int range e2/1-2
+  channel-group 221 mode active
+  channel-protocol lacp
+  end
+
+!@A2
+conf t
+ int range e1/1-2
+  channel-group 112 mode active
+  channel-protocol lacp
+ int range e2/1-2
+  channel-group 222 mode active
+  channel-protocol lacp
+  end
+
+!@A3
+conf t
+ int range e1/1-2
+  channel-group 113 mode active
+  channel-protocol lacp
+ int range e2/1-2
+  channel-group 223 mode active
+  channel-protocol lacp
+  end
+  
+  
+---
+
+### REVIEW OF ROUTING - Why can't END Devices ping 8.8.8.8 ?
+
+
+## FIRST HOP REDUNDANCY PROTOCOL
+### HSRP
+Use track
+
+### VRRP
+Use EEM
+
+
+### GLBP
+Use IP SLA
+
+
+
+---
+
+### DHCPv6
+
