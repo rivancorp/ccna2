@@ -69,6 +69,151 @@ Large: 10.0.0..0/8 -> 16M
 Med:   172.16.0.0/16 -> 65k
 Pobre: 192.168.1.0/24 -> 254
 
+GitHub.com/4rthurcyber08/rivan_day2
+
+/28 = 255.255.255.240 = 4th,16i = 0.0.0.15
+
+/23 = x.x.254.0  = 3rd,2i, = 0.0.1.255
+/26 = 255.255.255.192 = 4th,64i = 0.0.0.63
+/19 = x.x.224.0      = 3rd,32i  = 0.0.31.x
+ /22   =  x.x.252.0     = 3rd,4i   = 0.0.3.x
+
+TASK3: how to subnet:
+2 methods: WORLD SOLUTION:5-10   VS  RIVAN METHOD:3S
+Q1: design/configure Accenture.com callcenter(10.0.0.0/8)-16M
+with only      1580agents:        4500agents       350agents   50agents
+Convert2bits:  11bits              13bit             9bits        6bits
+Subract/32:-    /21               /19              /23           /26 
+IpasoksaHiwa:  3rd,8i            3rd,32i            3rd,2i       4th,64i
+        ipasok8isa3rd          ipasok32isa3rd    ipasok2isa3rd  ipas64isa4th
+Accenture: 10.0.8.0/21       10.0.32.0/19       10.0.2.0/23    10.0.0.64/26
+1stIP:    10.0.8.1           10.0.32.1          10.0.2.1       10.0.0.65
+
+LastIP/bc   10.0.15.255     10.0.63.255        10.0.3.255      10.0.0.127
+NOTurs:   10.0.16.0/21-1    10.0.64.0/19       10.0.4.0/23     10.0.0.128/26
+
+          2700agents:        30agents       4agents    800agents
+convert:      12              5               3          10
+subract/32   /20               /27           /29         /22
+             3rd,16i         4th,32i        4th,8i       3rd,4i 
+ipasoksaHiwa: 
+yours:     10.0.16.0/20      10.0.0.32/27  10.0.0.8/29   10.0.4.0/22
+          10.0.16.1           10.0.0.33      10.0.0.9     10.0.4.1
+
+          10.0.31.255        10.0.0.63       10.0.0.15     10.0.7.255 
+NOTyours: 10.0.32.0/20      10.0.0.64/27   10.0.0.16/29   10.0.8.0/22
+
+task4: DESING IMPLEMENTATION AND CONFIGURATION:
+@D1:
+config t
+vlan 3
+name CHEVRONINC
+vlan 4
+name PETRONCORP
+vlan 5
+name EMBAUSA.ORG
+vlan 6
+name GOODYEARINC
+Interface vlan 3
+ desc SVIFORCHEVRON
+ no shut
+ ip add 10.0.32.1 255.255.224.0
+Interface vlan 4
+ desc SVIFORPETRON
+ no shut
+ ip add 10.0.8.1 255.255.248.0
+Interface vlan 5
+ desc SVIFORUSAEMBA
+ no shut
+ ip add 10.0.0.129 255.255.255.128
+Interface vlan 6
+ desc SVIFORGOODYEAR
+ no shut
+ ip add 10.0.16.1 255.255.240.0
+ip dhcp excluded-add 10.0.32.1 10.0.32.100
+ip dhcp excluded-add 10.0.8.1 10.0.8.100
+ip dhcp excluded-add 10.0.0.129 10.0.0.139
+ip dhcp excluded-add 10.0.16.1 10.0.16.100
+ip dhcp pool CHEVRONINC
+ network 10.0.32.0 255.255.224.0
+ default-router 10.0.32.1
+ip dhcp pool pETRONINC
+ network 10.0.8.0 255.255.248.0
+ default-router 10.0.8.1
+ip dhcp pool USAEMBASY
+ network 10.0.0.128 255.255.255.128
+ default-router 10.0.0.129
+ip dhcp pool GOODYEAR
+ network 10.0.16.0 255.255.240.0
+ default-router 10.0.16.1
+end
+@A1:
+CONFIG T
+INT E0/0
+switchport mode access
+switchport access vlan 3
+end
+@p1:
+CONFIG T
+INT E0/0
+ip address dhcp
+no shut
+do bp
+for petron vlan=4
+@A2:
+CONFIG T
+INT E1/0
+switchport mode access
+switchport access vlan 4
+end
+@p2:
+CONFIG T
+INT E1/0
+ip address dhcp
+no shut
+do bp
+****for goodyear=v6@@@@@@
+@d2:
+CONFIG T
+INT E1/0
+switchport mode access
+switchport access vlan 6
+end
+@s2:
+CONFIG T
+INT E1/0
+ip address dhcp
+no shut
+do bp
+&&&&&&&&&for usa embassy@@@@@@@@
+@d1:
+CONFIG T
+INT E1/0
+switchport mode access
+switchport access vlan 5
+end
+@s1:
+CONFIG T
+INT E1/0
+ip address dhcp
+no shut
+do bp
+
+TASK5: CHECK UP? MERON KA BANG TULO? IS UR BRAIN LEAKING:
+
+/27 = 255.255.255.224  = 4th,32i = 0.0.0.31 
+ /18  = 255.255.192.0     =   3rd,64i = 0.0.63.255
+ /22  = 255.255.252.0   = 3RD,4i  = 0.0.3.255
+ /12  = 255.240.0.0   =  2nd,16i       = 0.15.x.x
+
+SUBNET: 10.0.0.0/8(16M) --> 240 PCs.
+Convert:8bits   subract:/24  ipasok1isa3rdHiwa:        
+Urs: 10.0.1.0/24
+1st: 10.0.1.1
+last: 10.0.1.255
+notURS: 10.0.2.0/24
+
+
 Ex.5.1: Design and Configure accenture.com
 call center with 1750 Agents,Tls,QAs,Pm. using
 10.0.0.0/8:HowToSubnet: WorldMethod: vs 
