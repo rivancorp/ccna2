@@ -2,17 +2,18 @@ On Day1 script:
 
 Paste on CoreTAAS
 - Lines: 3-33      IP Add & SVI
-saPCmo: ping 10.m.1.2 
+saPCmo open CMD: ping 10.m.1.2 
 securecrt, kidlat: telnet 10.m.1.2
-lipat console sa baba:
+lipat console sa COREbaba:
 
 Paste on CoreBABA
 - Lines 37-71      IP Add & SVI
+- Lines 77 - 84 Trunk Mode Switch to Switch Taas & Baba
 - Lines 100 - 126  DHCP
 - Lines 130 - 168  VLANs & Switchport
 - Lines 171 - 180  MAC Reservation
-- Lines 399 - 405  OSPF Routing
-saPCmo: ping 10.m.1.4 
+- Lines 407 - 413  OSPF Routing
+saPCmo open CMD: ping 10.m.1.4 
 securecrt, kidlat: telnet 10.m.1.4
 lipat console sa CUCM:
 
@@ -22,16 +23,16 @@ Paste on CUCM
 - Lines 223 - 262 Telephony
 - Lines 265 - 276 Video Calls
 - Lines 279 - 283 Incoming Calls
-- Lines 286 - 350 Outgoing Calls
-- Lines 408 - 412 OSPF Routing
-saPCmo: ping 10.m.100.4 
-saPCmo: ping 10.m.100.8
+- Lines 286 - 358 Outgoing Calls
+- Lines 416 - 420 OSPF Routing
+saPCmo open CMD: ping 10.m.100.4 
+saPCmo open CMD: ping 10.m.100.8
 securecrt, kidlat: telnet 10.m.100.8
 lipat console sa EDGE:
 
 Paste on EDGE
-- Lines 356 - 381 IP add
-- Lines 388 - 396 OSPF Routing
+- Lines 364 - 389 IP add
+- Lines 396 - 404 OSPF Routing
 
 
 !@CSR1000v
