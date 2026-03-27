@@ -511,7 +511,7 @@ GLBP: global load balancing protocol: all Cisco Router
 Companies: 2 or 3 telcos:
 @TAAS/PLDTinternet:
 config t
-hostname PLDT-ITO
+hostname coretaasPLDT
 Track 1 Int gi 0/1 line-protocol
 Int vlan 1
 standby 1 ip 10.__.1.6
@@ -530,7 +530,7 @@ standby 10 Track 1 decrement 60
 
 COREBABA/GLOBE:
 config t
-hostname GLOBE-ITO
+hostname corebabaGLOBE
 Int vlan 1
 standby 1 ip 10.__.1.6
 standby 1 preempt
