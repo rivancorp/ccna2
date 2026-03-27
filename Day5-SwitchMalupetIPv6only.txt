@@ -308,7 +308,7 @@ SuperMan: 802.1s: MiSTP
 
 TASK8: ACCESS PORTS VS TRUNK PORTS: lab mo sa exam.
 +
-TAAS/BABA:
+TAAS/BABA: PASTE MUNA SA BABA, THEN TAAS! OK
 config t
 Int Range fa0/10-12
  shutdown
