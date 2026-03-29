@@ -1,0 +1,589 @@
+!TASK1: COLLAPSED BACKBONE: BASIC LAYER3 CONFIGURATION.
+!@@@CORE SWITCH SA TAAS ( LINE 3 to 33 PASTE TO COREtaas SWITCH )
+config t
+   hostname COREtaas-12
+   enable secret pass
+   service password-encryption
+   no logging console
+   no ip domain-lookup
+   line console 0
+     password pass
+     login
+     exec-timeout 0 0
+    line vty 0 14
+      password pass
+      login
+      exec-timeout 0 0
+   Int Vlan 1
+     no shutdown
+	 ip add 10.12.1.2 255.255.255.0
+	 description MGMTDATA
+   Int Vlan 10
+     no shutdown
+	 ip add 10.12.10.2 255.255.255.0
+	 description WIRELESS
+   Int Vlan 50
+     no shutdown
+	 ip add 10.12.50.2 255.255.255.0
+	 description IPCCTV
+   Int Vlan 100
+     no shutdown
+	 ip add 10.12.100.2 255.255.255.0
+	 description VOICEVLAN
+end
+
+!( LINE 37 to 71 PASTE TO COREBABA SWITCH )
+!@@@LeafSwitchONLY
+config t
+   hostname COREbaba-12
+   enable secret pass
+   service password-encryption
+   no logging console
+   no ip domain-lookup
+   line console 0
+     password pass
+     login
+     exec-timeout 0 0
+    line vty 0 14
+      password pass
+      login
+      exec-timeout 0 0
+   Int Gi 0/1
+     no shutdown
+	  no switchport
+	  ip add 10.12.12.4 255.255.255.0
+   Int Vlan 1
+     no shutdown
+	 ip add 10.12.1.4 255.255.255.0
+	 description MGMTDATA
+   Int Vlan 10
+     no shutdown
+	 ip add 10.12.10.4 255.255.255.0
+	 description WIRELESS
+   Int Vlan 50
+     no shutdown
+	 ip add 10.12.50.4 255.255.255.0
+	 description IPCCTV
+   Int Vlan 100
+     no shutdown
+	 ip add 10.12.100.4 255.255.255.0
+	 description VOICEVLAN
+end
+
+WARNING: IF YOU SEE AMBER/ORANGE= NEEDS FIXING!!!
+Trunk Ports: switch to switch:
+TAAS/BABA: (Line 76-83 Paste on COREtaas & COREbaba)
+config t
+Int Range fa0/10-12
+ ! shutdown
+ no shutdown
+ switchport trunk Encap Dot1Q
+ switchport mode trunk
+ do sh int trunk
+end
+
+CCNPSkillsNow: Etherchannel with LinkAggregationControlProtocol:
+WARNING: THREE CABLES IS BETTER THAN ONE!
+@taas/BABA: (Line 88- 94 Paste on COREtaas & COREbaba)
+config t
+Int Range fa0/10-12
+ channel-group 1 mode active
+ channel-protocol Lacp
+ do sh etherchannel summary
+ end
+sh int po1 | inc BW
+
+!DHCP: DYNAMIC HOST CONFIGURATION PROTOCOL
+!@@@LEAF SWITCH (Line 98-124 Paste on COREbaba)
+config t
+ip dhcp Excluded-add 10.12.1.1 10.12.1.100
+ip dhcp Excluded-add 10.12.10.1 10.12.10.100
+ip dhcp Excluded-add 10.12.50.1 10.12.50.100
+ip dhcp Excluded-add 10.12.100.1 10.12.100.100
+ip dhcp pool MGMTDATA
+   network 10.12.1.0 255.255.255.0
+   default-router 10.12.1.4
+   domain-name MGMTDATA.COM
+   dns-server 10.12.1.10
+ip dhcp pool WIFIDATA
+   network 10.12.10.0 255.255.255.0
+   default-router 10.12.10.4
+   domain-name WIFIDATA.COM
+   dns-server 10.12.1.10
+ip dhcp pool IPCCTV
+   network 10.12.50.0 255.255.255.0
+   default-router 10.12.50.4
+   domain-name IPCCTV.COM
+   dns-server 10.12.1.10
+ip dhcp pool VOICEVLAN
+   network 10.12.100.0 255.255.255.0
+   default-router 10.12.100.4
+   domain-name VOICEVLAN.COM
+   dns-server 10.12.1.10
+   option 150 ip 10.12.100.8
+   END
+
+!!CREATING AND PLACING PORTS INSIDEAVLAN: (Line 127-165 Paste on COREbaba)
+config t
+vlan 10
+   name WIFIVLAN
+vlan 50
+   name IPCCTVLAN
+vlan 69
+   name DELETEME
+vlan 70
+    name SELLME
+vlan 71
+    name HR
+vlan 100
+   name VOICEVLAN
+Int Fa 0/2
+  switchport mode access
+  switchport access vlan 10  
+Int Fa 0/4
+  switchport mode access
+  switchport access vlan 10
+Int Fa 0/6
+  switchport mode access
+  switchport access vlan 50  
+Int Fa 0/8
+  switchport mode access
+  switchport access vlan 50
+Int Fa 0/3
+  switchport mode access
+  switchport access vlan 100   
+Int Fa 0/5
+  switchport mode access  
+  switchport voice vlan 100
+  mls qos trust device cisco-phone 
+  switchport access vlan 1
+Int Fa 0/7
+  switchport mode access
+  switchport voice vlan 100 
+  mls qos trust device cisco-phone 
+ switchport access vlan 1
+ end
+
+!IP CAMERAS NEED MAC ADDRESS RESERVATION FOR FIXED IP SECURITY.  (LINE 168-177 PASTE TO COREBABA)
+config t
+ip routing
+ip dhcp pool CAMERA6
+host 10.12.50.6 255.255.255.0
+client-identifier 001a.070a.c334
+ip dhcp pool CAMERA8
+host 10.12.50.8 255.255.255.0
+client-identifier 001a.0708.6f17
+end
+show ip dhcp binding
+
+!TASK2***TASK2***TASK2***
+!@@@CME ROUTE CONFIG (Call Manager Express) ( Line 181-199 Paste on CME)
+config t
+   hostname CME-12
+   enable secret pass
+   service password-encryption
+   no logging console
+   no ip domain lookup
+   line console 0
+     password pass
+     login
+     exec-timeout 0 0
+    line vty 0 14
+      password pass
+      login
+      exec-timeout 0 0
+   Int Gi 0/0/0
+     description CME
+     ip add 10.12.100.8 255.255.255.0
+	 no shutdown
+ end
+ 
+!CME SIP PHONE REGISTER ( Change "ID MAC"" according to the MAC Address of SIP PHONES)
+!Change SCCP mode to SIP mode & !Phone SIP Registry ( Line 203-287 Paste on CME)
+conf t
+voice service voip
+ allow-connections h323 to sip
+ allow-connections sip to h323
+ allow-connections sip to sip
+ supplementary-service h450.12
+sip
+ transport switch udp tcp
+ bind control source-interface gi0/0/0
+ bind media source-interface gi0/0/0
+ registrar server expires max 3600 min 3600
+voice register global
+ mode cme
+ no auto-register
+ source-address 10.12.100.8 port 5060
+ max-dn 20
+ max-pool 20
+ authenticate register
+ create profile
+!
+voice register dn 1
+ number 1211
+ name 1211
+ allow watch
+voice register dn 2
+ number 1222
+ name 1222
+ allow watch
+voice register dn 3
+ number 1233
+ name 1233
+ allow watch
+voice register dn 4
+ number 1244
+ name 1244
+ allow watch
+voice register dn 5
+ number 1255
+ name 1255
+ allow watch
+voice register dn 6
+ number 1266
+ name 1266
+ allow watch
+voice register dn 7
+ number 1277
+ name 1277
+ allow watch
+voice register dn 8
+ number 1288
+ name 1288
+ allow watch
+voice register dn 9
+ number 1299
+ name 1299
+ allow watch
+voice register dn 10
+ number 1267
+ name 1267
+ allow watch
+!
+voice register pool 1
+ id mac 00bc.60bf.47c6
+ number 1 dn 1
+ number 2 dn 2
+ number 3 dn 3
+ number 4 dn 4
+ number 5 dn 5
+ dtmf-relay sip-notify
+ username 12Passa password 12Passa
+ codec g711ulaw
+ type 8851
+!
+voice register pool 2
+ id mac dcf7.19d9.b574
+ number 1 dn 6
+ number 2 dn 8
+ number 3 dn 9
+ number 4 dn 7
+ number 5 dn 10
+ dtmf-relay sip-notify
+ username 12Passb password 12Passb
+ codec g711ulaw
+ type 8851
+end
+
+!Check/Debug SIP Phone Configurations
+!It must show the sip mac addresses for the phones to have numbers
+show voice register tftp-bind
+
+!Register Phones Re-Create profile ( Line 294-297 Paste on CME )
+conf t
+voice register global
+create profile sync syncinfo
+end
+
+!@incoming and outgoing call ( Line 300-304 Paste on CME )
+conf t
+ voice service voip
+ ip address trusted list
+ ipv4 0.0.0.0 0.0.0.0
+ end
+
+!Dial-Peer Don't Touch yourself ( Line 307-380 Paste on CME )
+conf t
+ dial-peer voice 11 Voip
+  destination-pattern 11..
+  session target ipv4:10.11.100.8
+  codec g711ULAW
+ dial-peer voice 12 Voip
+  destination-pattern 12..
+  session target ipv4:10.12.100.8
+  codec g711ULAW
+ dial-peer voice 21 Voip
+  destination-pattern 21..
+  session target ipv4:10.21.100.8
+  codec g711ULAW
+ dial-peer voice 22 Voip
+  destination-pattern 22..
+  session target ipv4:10.22.100.8
+  codec g711ULAW
+ dial-peer voice 31 Voip
+  destination-pattern 31..
+  session target ipv4:10.31.100.8
+  codec g711ULAW
+ dial-peer voice 32 Voip
+  destination-pattern 32..
+  session target ipv4:10.32.100.8
+  codec g711ULAW
+ dial-peer voice 41 Voip
+  destination-pattern 41..
+  session target ipv4:10.41.100.8
+  codec g711ULAW
+ dial-peer voice 42 Voip
+  destination-pattern 42..
+  session target ipv4:10.12.100.8
+  codec g711ULAW
+ dial-peer voice 51 Voip
+  destination-pattern 51..
+  session target ipv4:10.51.100.8
+  codec g711ULAW
+ dial-peer voice 52 Voip
+  destination-pattern 52..
+  session target ipv4:10.52.100.8
+  codec g711ULAW
+ dial-peer voice 61 Voip
+  destination-pattern 61..
+  session target ipv4:10.61.100.8
+  codec g711ULAW
+ dial-peer voice 62 Voip
+  destination-pattern 62..
+  session target ipv4:10.62.100.8
+  codec g711ULAW
+ dial-peer voice 71 Voip
+  destination-pattern 71..
+  session target ipv4:10.71.100.8
+  codec g711ULAW
+ dial-peer voice 72 Voip
+  destination-pattern 72..
+  session target ipv4:10.72.100.8
+  codec g711ULAW
+ dial-peer voice 81 Voip
+  destination-pattern 81..
+  session target ipv4:10.81.100.8
+  codec g711ULAW
+ dial-peer voice 82 Voip
+  destination-pattern 82..
+  session target ipv4:10.82.100.8
+  codec g711ULAW
+ dial-peer voice 91 Voip
+  destination-pattern 91..
+  session target ipv4:10.91.100.8
+  codec g711ULAW
+ dial-peer voice 92 Voip
+  destination-pattern 92..
+  session target ipv4:10.92.100.8
+  codec g711ULAW
+ end
+ 
+!OSPF ROUTING ( Line 384-388 Paste on CME )
+!@CME: (Call Manager Express) 
+config t
+router ospf 1
+router-id 10.12.100.8
+network 10.12.100.0  0.0.0.255  area 0
+end
+
+!OSPF on COREswitch ( Line 392-398 Paste on COREbaba )
+!@CoreBABA:
+config t
+router ospf 1
+router-id 10.12.12.4
+network 10.12.0.0  0.0.255.255 area 0
+int gi 0/1
+ ip ospf network point-to-point
+end
+
+TASK3***TASK3***TASK3*** ( FORTINET 80E and 60E Configurations )
+!Set Switchports to L3  "PORT1 MUST BE PART OF LAN"  = VLAN1 ( Line 402-409 Paste on FORTINET 80E )
+config system virtual-switch
+ edit lan
+  config port
+    delete port1
+    delete port2
+  end
+ next
+end
+
+!Config Static IP Address for FORTINET 80E ( Line 410-435 Paste on FORTINET 80E )
+config system interface
+ edit wan1
+  set mode static
+  set ip 200.0.0.12 255.255.255.0 
+  set allowaccess ping https ssh telnet
+  set role wan
+  set alias "INTERNET"
+  set status up
+  next
+ edit port1
+  set mode static
+  set ip 10.12.12.1 255.255.255.0
+  set allowaccess ping https ssh telnet http
+  set role lan
+  set alias "INTERNAL"
+  set status up
+  next
+edit loopback1
+  set vdom root
+  set mode static
+  set ip 12.0.0.1 255.255.255.255
+  set allowaccess ping
+  set type loopback
+  set status up
+ end
+end
+
+!Some Fortinet use Internal/Port modes depending on the version of Fortinet you are using, this is for FORTINET 60E
+!Delete 1st the virtual-swtich to  L3  "INTERNA1 MUST BE PART OF LAN"  = VLAN1 ( Line 441-449 Paste on FORTINET 60E )
+config system virtual-switch
+ edit "internal"
+  config port
+   delete "internal1"
+   delete "internal2"
+  end
+ next
+end
+
+!Set ip address & static mode to internal1 ( Line 451-476 Paste on FORTINET 60E )
+config system interface
+ edit wan1
+  set mode static
+  set ip 200.0.0.12 255.255.255.0 
+  set allowaccess ping https ssh telnet
+  set role wan
+  set alias "INTERNET"
+  set status up
+  next
+ edit internal1
+  set mode static
+  set ip 10.12.12.1 255.255.255.0
+  set allowaccess ping https ssh telnet http
+  set role lan
+  set alias "INTERNAL"
+  set status up
+  next
+edit loopback1
+  set vdom root
+  set mode static
+  set ip 12.0.0.1 255.255.255.255
+  set allowaccess ping
+  set type loopback
+  set status up
+ end
+end
+
+TASK4***TASK4***TASK4*** ( FORTINET ROUTING 80E and 60E Configurations )
+!OSPF Routing on Fortinet ( Line 480-500 Paste on FORTINET 60E or 80E )
+config router ospf 
+ set router-id 12.0.0.1
+ set log-neighbour-changes enable
+ config area
+  edit 0.0.0.0
+   next
+   end
+ config network
+  edit 1
+   set area 0.0.0.0
+   set prefix 10.12.12.0 255.255.255.0
+   next
+  edit 2
+   set area 0.0.0.0
+   set prefix 200.0.0.0 255.255.255.0
+   next
+  edit 3
+   set area 0.0.0.0
+   set prefix  12.0.0.1 255.255.255.255
+   end
+ end
+
+!OSPF Routing Point-to-Point for Internal 1 and up on Fortinet 60E (Dikit kay COREbaba) ( Line 503-510 Paste kay FORTINET 60E ) 
+config router ospf
+config ospf-interface
+  edit "internal1"
+   set interface "internal1"
+   set network-type point-to-point
+   next
+ end
+end
+
+!OSPF Routing Point-to-Point for Port 1 and up on Fortinet 80E (Dikit kay COREbaba) ( Line 513-520 Paste kay FORTINET 80E ) 
+config router ospf
+config ospf-interface
+  edit "port1"
+   set interface "port1"
+   set network-type point-to-point
+   next
+ end
+end
+
+! SHOW COMMANDS ON FORTINET, SHOW ROUTING TABLE & SHOW NEIGHBORS
+SFC: show full-configuration
+GSIP: get system interface physical
+SRO: show router ospf
+GRION: get router info ospf neighbor
+GRIRTA: get router info routing-table all
+GRIRTO: get router info routing-table ospf
+
+TASK4***TASK4***TASK4*** ( FORTINET FIREWALL POLICY 80E and 60E Configurations ) or via (GUI Configurations 10.12.12.1)
+!Edit Firewall Policy to call other classmates on FIREWALL (Fortinet for 60E OUTGOING) Para makalabas ( Line 531-543 Paste kay FORTINET 60E ) 
+config firewall policy
+ edit 1
+ set name "VoIP-Allow"
+ set srcintf "internal1"
+ set dstintf "wan1"
+ set srcaddr "all"
+ set dstaddr "all"
+ set action accept
+ set schedule "always"
+ set service "ALL"
+ set nat disable
+ next
+end
+
+!Edit Firewall Policy to call other classmates on FIREWALL (Fortinet for 80E OUTGOING) Para makalabas ( Line 548-559 Paste kay FORTINET 80E ) 
+config firewall policy
+ edit 1
+ set name "VoIP-Allow"
+ set srcintf "port1"
+ set dstintf "wan1"
+ set srcaddr "all"
+ set dstaddr "all"
+ set action accept
+ set schedule "always"
+ set service "ALL"
+ set nat disable
+ next
+end
+
+!Edit Firewall Policy to call other classmates on FIREWALL (Fortinet for 60E INCOMING) Para makapasok ( Line 562-574 Paste kay FORTINET 60E ) 
+config firewall policy
+ edit 2
+ set name "Incoming"
+ set srcintf "wan1"
+ set dstintf "internal1"
+ set srcaddr "all"
+ set dstaddr "all"
+ set action accept
+ set schedule "always"
+ set service "ALL"
+ set nat disable
+ next
+end
+
+!Edit Firewall Policy to call other classmates on FIREWALL (Fortinet for 80E INCOMING) Para makapasok ( Line 577-589 Paste kay FORTINET 80E ) 
+config firewall policy
+ edit 2
+ set name "INcoming"
+ set srcintf "WAN1"
+ set dstintf "PORT1"
+ set srcaddr "all"
+ set dstaddr "all"
+ set action accept
+ set schedule "always"
+ set service "ALL"
+ set nat disable
+ next
+end
