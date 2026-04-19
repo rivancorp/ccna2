@@ -1,0 +1,21 @@
+!@--access point--
+
+conf t
+hostname aironet-20
+ dot11 ssid 20-autoNetmiko
+ vlan 20
+ authentication open
+ authentication key-management wpa
+ wpa-psk ascii C1sc0123
+ guest-mode
+ default int dot11radio 0
+ default interface gigabitEthernet 0
+int dot11radio 0
+ no shut
+ channel 9
+ encryption mode ciphers tkip
+ encryption vlan 20 mode ciphers tkip 
+ ssid 20-autoNetmiko
+int dot11radio 0.20
+ encapsulation dot1q 20 native
+ bridge-group 1
