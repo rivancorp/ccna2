@@ -61,7 +61,7 @@ TASK4: Bit Length:
 212 = b 
 4,500 = b
 81 = b
-10,800  = b  
+8,500  = b  
 55 = b
 
 TASK5: Subnetting:
