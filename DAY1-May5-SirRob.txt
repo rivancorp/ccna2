@@ -131,13 +131,13 @@ config t
 vlan 10
    name WIFIVLAN
 vlan 50
-   name IPCCTVLAN
+   name IPCameraVLAN
 vlan 69
-   name DELETEME
+   name vlanNIrobert
 vlan 70
-    name SELLME
+    name EXTRAVLAN
 vlan 71
-    name HR
+    name HRD-POLICY
 vlan 100
    name VOICEVLAN
 Int Fa 0/2
@@ -172,10 +172,10 @@ config t
 ip routing
 ip dhcp pool CAMERA6
 host 10.~~.50.6 255.255.255.0
-client-identifier 001a.0704.7f5b
+client-identifier 001a.xxxx.yyyy
 ip dhcp pool CAMERA8
 host 10.~~.50.8 255.255.255.0
-client-identifier 001a.0709.c258 
+client-identifier 001a.xxxx.yyyy 
 end
 show ip dhcp binding
 
