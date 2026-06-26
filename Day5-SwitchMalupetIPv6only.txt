@@ -162,15 +162,15 @@ ipv6  route  ::/0   face:cafe:face:cafe::aaaa
 How to jailBreak forgotten Password:
 1. remove power, press mode after 8 secs:
 2. switch:   HOW TO JAILBREAK A CISCO SWITCH:
-            flash_init
-	    load_helper
+            flash~~init
+	    load~~helper
             rename flash:config.text flash:config.old
             delete  flash:config.text
             boot
 
 !@@@CORE SWITCH SA TAAS
 config t
-   hostname COREtaas_
+   hostname COREtaas~~
    enable secret pass
    service password-encryption
    no logging console
@@ -185,24 +185,24 @@ config t
       exec-timeout 0 0
    Int Vlan 1
      no shutdown
-	 ip add 10._.1.2 255.255.255.0
+	 ip add 10.~~.1.2 255.255.255.0
 	 description MGMTDATA
    Int Vlan 10
      no shutdown
-	 ip add 10._.10.2 255.255.255.0
+	 ip add 10.~~.10.2 255.255.255.0
 	 description WIRELESS
    Int Vlan 50
      no shutdown
-	 ip add 10._.50.2 255.255.255.0
+	 ip add 10.~~.50.2 255.255.255.0
 	 description IPCCTV
    Int Vlan 100
      no shutdown
-	 ip add 10._.100.2 255.255.255.0
+	 ip add 10.~~.100.2 255.255.255.0
 	 description VOICEVLAN
 
 !@@@LeafSwitchONLY
 config t
-   hostname COREbaba_
+   hostname COREbaba~~
    enable secret pass
    service password-encryption
    no logging console
@@ -218,22 +218,22 @@ config t
    Int Gi 0/1
      no shutdown
 	  no switchport
-	  ip add 10._._.4 255.255.255.0
+	  ip add 10.~~.~~.4 255.255.255.0
    Int Vlan 1
      no shutdown
-	 ip add 10._.1.4 255.255.255.0
+	 ip add 10.~~.1.4 255.255.255.0
 	 description MGMTDATA
    Int Vlan 10
      no shutdown
-	 ip add 10._.10.4 255.255.255.0
+	 ip add 10.~~.10.4 255.255.255.0
 	 description WIRELESS
    Int Vlan 50
      no shutdown
-	 ip add 10._.50.4 255.255.255.0
+	 ip add 10.~~.50.4 255.255.255.0
 	 description IPCCTV
    Int Vlan 100
      no shutdown
-	 ip add 10._.100.4 255.255.255.0
+	 ip add 10.~~.100.4 255.255.255.0
 	 description VOICEVLAN
 
 TASK3: THE ULTIMATE SKILL FOR A NETWORK ENGINEER.
@@ -260,7 +260,7 @@ COREbaba12#sh mac address-table
 TASK4: Mastering the Switch BUttons:
 Mode Button: jailBreak/Password Forget/ factory reset 
 Poweroff, Press Mode, until
-Switch:  flash_init
+Switch:  flash~~init
 	 delete flash:config.text
          delete flash:vlan.dat
          boot
@@ -514,7 +514,7 @@ config t
 hostname coretaasPLDT
 Track 1 Int gi 0/1 line-protocol
 Int vlan 1
-standby 1 ip 10.__.1.6
+standby 1 ip 10.~~~~.1.6
 standby 1 preempt
 standby 1 Priority 150
 standby 1 Track 1 decrement 60
@@ -532,7 +532,7 @@ COREBABA/GLOBE:
 config t
 hostname corebabaGLOBE
 Int vlan 1
-standby 1 ip 10.__.1.6
+standby 1 ip 10.~~~~.1.6
 standby 1 preempt
 standby 1 Priority 100
 end
