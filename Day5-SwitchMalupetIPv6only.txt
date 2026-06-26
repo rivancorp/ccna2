@@ -514,7 +514,7 @@ config t
 hostname coretaasPLDT
 Track 1 Int gi 0/1 line-protocol
 Int vlan 1
-standby 1 ip 10.~~~~.1.6
+standby 1 ip 10.~~.1.6
 standby 1 preempt
 standby 1 Priority 150
 standby 1 Track 1 decrement 60
@@ -532,7 +532,7 @@ COREBABA/GLOBE:
 config t
 hostname corebabaGLOBE
 Int vlan 1
-standby 1 ip 10.~~~~.1.6
+standby 1 ip 10.~~.1.6
 standby 1 preempt
 standby 1 Priority 100
 end
