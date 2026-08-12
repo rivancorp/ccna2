@@ -189,7 +189,7 @@ router eigrp 100
 network 208.8.8.0 0.0.0.255
 end
 
-D1:
+c1 or D1:
 config t
 router eigrp 100
  no auto-summary
@@ -211,7 +211,7 @@ conf t
 		end
 
 
-D2:
+C2 or D2:
 config t
 router eigrp 100
  no auto-summary
